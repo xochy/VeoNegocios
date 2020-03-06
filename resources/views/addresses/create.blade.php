@@ -17,7 +17,7 @@
 
 @endsection
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRs1LSFxl7j1LCaiOU_CNO3r5N0PTxCY4&libraries=places&callback=initMap" async defer >
+<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initMap" async defer >
 </script>
 
 <script>

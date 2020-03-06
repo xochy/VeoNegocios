@@ -40,3 +40,5 @@ Route::get('/createFromCategory/{category}', 'StoreController@createFromCategory
 Route::post('/categories/{category}', 'StoreController@storeFromCategory')->name('stores.storeFromCategory');
 
 Route::resource('products', 'ProductController');
+
+Route::resource('addresses', 'AddressController');

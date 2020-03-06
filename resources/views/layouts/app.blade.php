@@ -11,11 +11,7 @@
     <title>@yield('titulo', 'plantilla')</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <script src="{{ asset('js/app.js') }}" defer></script> 
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -64,10 +60,13 @@
             background-color: #efefef;
             text-align: center;
         }
-    </style>
-    <script>
 
-    </script>
+        #map-canvas {
+            height: 400px;  /* The height is 400 pixels */
+            width: 100%;  /* The width is the width of the web page */
+       }
+    </style>
+     
 </head>
 
 <body>
@@ -167,9 +166,8 @@
         </main>
     </div>
 
-    <div class="footer">This footer will always be positioned at the bottom of the page, but <strong>not fixed</strong>.</div>
-
-    <script src="https://kit.fontawesome.com/afe49aea92.js" crossorigin="anonymous"></script>
+    <div class="footer">Forma parte de <strong>VeoNegocios</strong>.</div>
+    <script src="https://kit.fontawesome.com/afe49aea92.js" crossorigin="anonymous"></script>    
 </body>
 
 </html>

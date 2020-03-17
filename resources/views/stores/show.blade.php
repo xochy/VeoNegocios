@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('titulo', 'Detalles de categoría')
+@section('titulo', 'Detalles de negocio')
 @section('content')
 <h3>Detalles del negocio {{$store->name}}</h3>
 
@@ -33,7 +33,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card mb-3">
                     <div class="carousel slide" id="carousel-667320">
                         <ol class="carousel-indicators">    
@@ -84,7 +84,7 @@
                     </div>
                 </div>
 
-                <div class="mt-3 mb-3">          
+                {{-- <div class="mt-3 mb-3">          
                     <h3 class="display-5 text-center"> Contactos y Redes sociales </h3>
                     <hr class="bg-dark mb-4 w-25">
                     <nav>
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="mt-4 mb-3">
                     <h3 class="display-5 text-center"> Direcciones </h3>
@@ -125,7 +125,7 @@
                     @include('addresses.list')
                 </div>
             </div>
-            <div class="col-md-4">
+            {{-- <div class="col-md-4">
                 <h3>
                     Comentarios.
                 </h3>
@@ -164,7 +164,7 @@
                         </div>
                     </li>
                 </ul>
-            </div>
+            </div> --}}
         </div>
         <div class="row">
             <div class="col-md-12">

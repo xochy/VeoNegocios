@@ -60,14 +60,14 @@
 
         </div>
         <div class="col-md-7 text-md-left ml-3 mt-3">
-            <a href="#!" class="green-text">
+            {{-- <a href="#!" class="green-text">
                 <h6 class="h6 pb-1"><i class="fas fa-store pr-1"></i> 30 Negocios registrados en esta categoría</h6>
-            </a>
+            </a> --}}
 
             <h4 class="h4 mb-4">{{$category->name}}</h4>
 
             <p class="font-weight-normal">{{$category->description}}</p>
-            <p class="font-weight-normal">by <a><strong>Carine Fox</strong></a>, 19/08/2016</p>
+            {{-- <p class="font-weight-normal">by <a><strong>Carine Fox</strong></a>, 19/08/2016</p> --}}
 
             <a  class="btn btn-primary" href="{{ route('stores.createFromCategory', $category->slug) }}"><i class="far fa-plus-square"></i> Crear nuevo negocio</a>
             <a class="btn btn-warning" href="{{ route('categories.edit', $category->slug )}}" ><i class="far fa-edit"></i> Editar categoría</a>

@@ -19,7 +19,7 @@ class Store extends Model
         return $this->belongsTo('App\User');
     }
 
-    function Category()
+    function category()
     {
         return $this->belongsTo('App\Category');
     }
@@ -37,5 +37,39 @@ class Store extends Model
     public function images()
     {
         return $this->belongsToMany('App\Image', 'image_store')->orderBy('position'); 
+    }
+
+    public function hasTittleCoverImage($position)
+    {        
+        if($this->hasCoverImage($position)){
+            
+            $image = $this->images->where('position', $position)->first();
+
+            if($image->tittle != null){                
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function hasDescriptionCoverImage($position)
+    {        
+        if($this->hasCoverImage($position)){
+            
+            $image = $this->images->where('position', $position)->first();
+
+            if($image->description != null){                
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function hasCoverImage($position)
+    {        
+        if($this->images()->where('position', $position)->first()){
+            return true;
+        }
+        return false;
     }
 }

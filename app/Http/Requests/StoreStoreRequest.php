@@ -26,6 +26,16 @@ class StoreStoreRequest extends FormRequest
         return [
             'name' => 'required|max:50|min:3',
             'description' => 'required|max:100|min:10',
+            'profileImage' => 'required',
+            'coverImage1' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'profileImage.required' => 'El campo de imagen de perfil de negocio es obligatorio',
+            'coverImage1.required' => 'El campo de imagen de portada 1 es obligatorio'
         ];
     }
 }

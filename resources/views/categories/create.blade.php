@@ -15,7 +15,7 @@
     <div class="card-header">Formulario de registro de categoría</div>
     <div class="card-body">
         @include('common.errors')
-        <form class="form-group" method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
+        <form class="form-group" method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data" id="createForm">
             @csrf
             @include('categories.form')
             <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Guardar</button>
@@ -23,3 +23,4 @@
     </div>
 </div>
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

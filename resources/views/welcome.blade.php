@@ -10,10 +10,10 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <!-- Styles -->
+        <link href="{{ asset('css/animation.css') }}" rel="stylesheet">
+
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
@@ -49,8 +49,9 @@
             }
 
             .links > a {
-                color: #636b6f;
-                padding: 0 25px;
+                background: #fff;
+                color: black;
+                padding: 10px 25px;
                 font-size: 13px;
                 font-weight: 600;
                 letter-spacing: .1rem;
@@ -61,10 +62,37 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .home-main{
+                background: #42a4f5;
+                color:#fff;
+                text-align: center;
+            }
+
+            .blinker{
+			    animation: blinker 1.5s linear infinite;
+            }
+
+            @keyframes blinker {
+                50% {
+                    opacity: 0;
+                }
+            }
+
+            .home-main button{
+                background: #fff;
+                color: #5812c5;
+                border-radius: 0;
+                font-weight: 700;
+                width: 16%;
+                height: 50px;
+                top: 4%;
+                margin-top: 3%;
+            }
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-center position-ref full-height home-main">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -80,8 +108,8 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    VeoNegocios
+                <div class="title m-b-md animated pulse">
+                    VeoNegocios<span class="blinker">.</span>com
                 </div>
 
                 <div class="links">

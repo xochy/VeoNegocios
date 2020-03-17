@@ -2,7 +2,9 @@
     @foreach ($stores as $store)
         <div class="col-md-4 mt-5">
             <div class="card text-center">
-                <img class="card-img-top" src="/images/{{$store->images->first()->url}}" alt="Card image cap">
+                <a href="/stores/{{ $store->slug }}">
+                    <img class="card-img-top" src="/images/{{$store->images->first()->url}}" alt="Card image cap">
+                </a>
                 <div class="card-body">
                     <h5 class="card-title">{{$store->name}}</h5>
                     <hr>

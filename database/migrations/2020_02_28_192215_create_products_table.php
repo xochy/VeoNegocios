@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 50);
             $table->string('description', 200);
-            $table->float('price', 7, 2);
+            $table->string('price', 11);
             $table->boolean('offered');
             $table->string('slug')->unique();
             $table->bigInteger('store_id')->unsigned();

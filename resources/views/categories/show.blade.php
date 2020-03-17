@@ -11,18 +11,18 @@
 	</ol>
 </nav>
 
-@isset($statusSuccess)
+@if(session('statusSuccess'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{$statusSuccess}}
+        {{session('statusSuccess')}}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 @endisset
 
-@if (session('statusCancel'))
+@if(session('statusCancel'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('statusCancel') }}
+        {{session('statusCancel')}}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>

@@ -14,8 +14,13 @@ class Product extends Model
         return 'slug';
     }   
 
-    function Store()
+    function store()
     {
         return $this->belongsTo('App\Store');
+    }
+
+    public function images()
+    {
+        return $this->belongsToMany('App\Image', 'image_product')->orderBy('position'); 
     }
 }

@@ -164,7 +164,7 @@ class CategoryController extends Controller
 
         return view('categories.show')
             ->with([
-                'category' => $category,
+                'category' => $category->fresh(),
                 'statusSuccess' => 'Edición de categoría realizada correctamente'
             ]);
     }

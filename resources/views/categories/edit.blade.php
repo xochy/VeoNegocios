@@ -1,13 +1,13 @@
 @extends('layouts.app')    
 @section('titulo', 'Editar categoría')
 @section('content')
-<h3>Edición de categoría</h3>
+<h3>Edición de categoría {{$category->name}}</h3>
 
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
 		<li class="breadcrumb-item"><a href="{{ route('categories.index') }}">Categorías</a></li>
-		<li class="breadcrumb-item active" aria-current="page">Edición de categoría</li>
+        <li class="breadcrumb-item active" aria-current="page">{{$category->name}}</li>
 	</ol>
 </nav>
 
@@ -20,7 +20,7 @@
             @csrf
             @include('categories.form')
             <button type="submit" class="btn btn-primary"><i class="far fa-check-circle"></i> Actualizar</button>
-            <a href="{{ route('categories.cancelAction', $category->slug) }}" class="redondo btn btn-danger"><i class="fas fa-ban"></i> Cancelar</a>
+            <a href="{{ route('categories.cancelAction', $category) }}" class="redondo btn btn-danger"><i class="fas fa-ban"></i> Cancelar</a>
         </form>
     </div>
 </div>

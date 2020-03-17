@@ -8,10 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('titulo', 'plantilla')</title>
+    <title>@yield('titulo', 'Inicio')</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script> 
+    <script src="{{ asset('js/app.js') }}"></script> 
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -65,6 +65,105 @@
             height: 400px;  /* The height is 400 pixels */
             width: 100%;  /* The width is the width of the web page */
        }
+
+       .card-product .img-wrap {
+            border-radius: 3px 3px 0 0;
+            overflow: hidden;
+            position: relative;
+            height: 167px;
+            text-align: center;
+        }
+        .card-product .img-wrap img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: cover;
+        }
+        .card-product .info-wrap {
+            overflow: hidden;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        .card-product .bottom-wrap {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .label-rating { margin-right:10px;
+            color: #333;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .card-product .price-old {
+            color: #999;
+        }
+
+        hr {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .colorFormRequiredIcon{
+            color: red;
+        }
+
+        .profileImage{
+            width: 500px; 
+            height: 300px; 
+            object-fit:cover;
+        }
+
+        .coverImage{
+            width: 800px; 
+            height: 250px; 
+            object-fit:cover;
+        }
+
+        .panel-transparent{
+            background: rgba(54, 58, 64, 0.3)!important;
+        }
+
+        .map{
+            height:100% !important;
+            width:100% !important;
+        }
+
+        * {
+            border-radius: 0 !important;
+        }
+
+        .card-img {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0;
+            z-index: 1;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .card-img span {
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            background: #ff0000;
+            padding: 6px;
+            color: #fff;
+            font-size: 16px;
+            transform: translate(-50%,-50%);
+        }
+        
+        .card-img span h4{
+                font-size: 16px;
+                margin:0;
+                padding:10px 5px;
+                line-height: 0;
+        }
     </style>
      
 </head>
@@ -98,7 +197,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('stores.index') }}">Negocios</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 Dropdown
@@ -109,28 +208,28 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
-                        </li>
+                        </li> --}}
                     </ul>                  
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
 
                         {{-- Formulario del buscador --}}
-                        <li>
+                        {{-- <li>
                             <form class="form-inline my-2 my-lg-0">
                                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
                                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
                             </form>
-                        </li>
+                        </li> --}}
 
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">Ingreso</a>
                         </li>
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}">Registro</a>
                         </li>
                         @endif
 

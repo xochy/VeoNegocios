@@ -25,9 +25,14 @@ class Address extends Model
         return 'slug';
     }
 
-    function Store()
+    function store()
     {
         return $this->belongsTo('App\Store');
+    }
+
+    public function city()
+    {
+        return $this->hasOne('App\City');
     }
 
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\City;
+use App\Store;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
@@ -24,8 +26,19 @@ class AddressController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
+    {       
+        return view('addresses.create', compact('cities'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Store  $store
+     */
+    public function createFromStore(Store $store)
     {
-        return view('addresses.create');
+        $cities = City::orderBy('name', 'asc')->get();
+        return view('addresses.create')->with(['store' => $store, 'cities' => $cities]);
     }
 
     /**
@@ -34,11 +47,20 @@ class AddressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeFromStore(Request $request, Store $store)
     {
-        abort_unless(Gate::allows('address_create'), 403);
-        $address = Address::create($request->all());
-        return redirect()->route('admin.companies.index');
+        $address = new Address();
+        $address->address_address = $request->address_address;
+        $address->address_latitude = (double)$request->address_latitude;
+        $address->address_longitude = (double)$request->address_longitude;
+        $address->reference = $request->reference;
+        $address->schedule = $request->schedule;
+        $address->slug = 'address'.time();
+
+        $address->city_id = City::where('slug', $request->input('cities'))->first()->id;
+        $store->addresses()->save($address);
+        
+        return redirect()->route('addresses.stored', $store);
     }
 
     /**
@@ -49,7 +71,7 @@ class AddressController extends Controller
      */
     public function show(Address $address)
     {
-        //
+        print('hola');
     }
 
     /**
@@ -60,7 +82,9 @@ class AddressController extends Controller
      */
     public function edit(Address $address)
     {
-        //
+        $cities = City::orderBy('name', 'asc')->get();
+        $selectedCity = City::find($address->city_id);
+        return view('addresses.edit')->with(['address' => $address, 'cities' => $cities, 'selectedCity' => $selectedCity]);
     }
 
     /**
@@ -72,7 +96,11 @@ class AddressController extends Controller
      */
     public function update(Request $request, Address $address)
     {
-        //
+        $address->fill($request->all());
+        $address->city_id = City::where('slug', $request->input('cities'))->first()->id;
+        $address->save();
+
+        return redirect()->route('addresses.updated', $address->store);
     }
 
     /**
@@ -83,6 +111,19 @@ class AddressController extends Controller
      */
     public function destroy(Address $address)
     {
-        //
+        $address->delete();
+
+        return redirect()->route('addresses.deleted', $address->store);
+    }    
+
+    /**
+     * Send to confirmation view.
+     *
+     * @param  \App\Address  $address
+     * @return \Illuminate\Http\Response
+     */
+    public function confirmAction(Address $address)
+    {
+        return view('addresses.confirmAction', compact('address'));
     }
 }

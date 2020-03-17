@@ -24,7 +24,10 @@ class StoreAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|max:50|min:3',
+            'description' => 'required|max:100|min:10',
+            'profileImage' => 'required',
+            'coverImage1' => 'required'
         ];
     }
 }

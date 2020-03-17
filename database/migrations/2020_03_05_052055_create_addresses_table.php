@@ -16,17 +16,19 @@ class CreateAddressesTable extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('address_address');
-            $table->double('address_latitude');
-            $table->double('address_longitude');
+            $table->double('address_latitude', 24, 18);
+            $table->double('address_longitude', 22, 18);
             $table->string('reference')->nullable();
             $table->string('schedule')->nullable();
             $table->string('slug')->unique();
             $table->bigInteger('store_id')->unsigned();
+            $table->bigInteger('city_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('addresses', function (Blueprint $table) {
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
+            $table->foreign('city_id')->references('id')->on('cities');
         });
     }
 

@@ -26,4 +26,9 @@ class Category extends Model
     {
         return $this->belongsToMany('App\Image', 'image_category')->orderBy('position'); 
     }
+
+    public function hasImages(){
+    
+        return (bool) $this->images()->first();
+    }
 }

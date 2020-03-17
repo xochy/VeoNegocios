@@ -1,5 +1,5 @@
 <div class="row">
-    @forelse ($products as $product)
+    @forelse ($store->products as $product)
         <div class="col-md-4 mt-3">
             <div class="card h-100 d-flex flex-column justify-content-between">
                 <div class="card-img">

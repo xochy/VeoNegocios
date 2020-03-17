@@ -113,8 +113,8 @@
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Negocios</a>
-                    <a href="https://laracasts.com">Categorías</a>
+                    <a href="{{ route('categories.index') }}">Categorías</a>
+                    <a href="{{ route('stores.index') }}">Negocios</a>
                 </div>
             </div>
         </div>

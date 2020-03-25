@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\City;
+use App\Http\Requests\StoreAddressRequest;
 use App\Store;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
@@ -57,7 +58,7 @@ class AddressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeFromStore(Request $request, Store $store)
+    public function storeFromStore(StoreAddressRequest $request, Store $store)
     {
         $address = new Address();
         $address->address_address = $request->address_address;

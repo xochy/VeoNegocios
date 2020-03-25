@@ -17,13 +17,19 @@
     </div>
 
     <div class="form-group col-md-9">
-        <label for="pac-input">Dirección</label>
+        <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="pac-input">Dirección</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fas fa-map-marker-alt"></i></div>
             </div>
-            <input type="text" id="pac-input" name="address_address" class="form-control" placeholder="Ej. Av. Lázaro Cárdenas #31, Col. Centro"
-            value="@isset($address->address_address){{$address->address_address}}@endisset">
+            <input type="text" id="pac-input" name="address_address" class="form-control @error('address_address') is-invalid @enderror" placeholder="Ej. Av. Lázaro Cárdenas #31, Col. Centro"
+            value="@if(isset($address->address_address)){{$address->address_address}}@else{{ old('address_address') }}@endif" autofocus>
+        
+            @error('address_address')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
 </div>
@@ -58,27 +64,39 @@
 </div>
 
 <div class="form-group">
-    <label for="">Referencias</label>
+    <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Referencias</label>
     <div class="input-group">
         <div class="input-group-prepend">
             <div class="input-group-text"><i class="fas fa-hand-point-right"></i></div>
         </div>
-        <input type="text" name="reference" class="form-control" placeholder="Ej. Aún lado de la Escuela Primaria Ignacio López Rayón; entre calles Independencia y Revolución"
-        value="@isset($address->reference){{$address->reference}}@endisset">
+        <input type="text" name="reference" class="form-control @error('reference') is-invalid @enderror" placeholder="Ej. Aún lado de la Escuela Primaria Ignacio López Rayón; entre calles Independencia y Revolución"
+        value="@if(isset($address->reference)){{$address->reference}}@else{{ old('reference') }}@endif">
+    
+        @error('reference')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
     </div>
-    <small id="scheduleHelp" class="form-text text-muted">Es recomendable especificar referencias claras respecto a su domicilio, pues será más sencillo para las personas conocer su ubicación.</small>
+    <small class="form-text text-muted">Es recomendable especificar referencias claras respecto a su domicilio, pues será más sencillo para las personas conocer su ubicación.</small>
 </div>
 
 <div class="form-group">
-    <label for="">Horario</label>
+    <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Horario</label>
     <div class="input-group">
         <div class="input-group-prepend">
             <div class="input-group-text"><i class="fas fa-clock"></i></div>
         </div>
-        <input type="text" name="schedule" class="form-control" placeholder="Ej. Lunes a Viernes de 09:00 am a 07:00 pm; Sábados 09:00 am a 02:00 pm" aria-describedby="scheduleHelp"
-        value="@isset($address->reference){{$address->reference}}@endisset">        
+        <input type="text" name="schedule" class="form-control @error('schedule') is-invalid @enderror" placeholder="Ej. Lunes a Viernes de 09:00 am a 07:00 pm; Sábados 09:00 am a 02:00 pm"
+        value="@if(isset($address->reference)){{$address->reference}}@else{{ old('schedule') }}@endif">        
+    
+        @error('schedule')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
     </div>
-    <small id="scheduleHelp" class="form-text text-muted">Es recomendable especificar si los horarios cambian en relación a los días, así como si existen días no laborables entre semana.</small>
+    <small class="form-text text-muted">Es recomendable especificar si los horarios cambian en relación a los días, así como si existen días no laborables entre semana.</small>
 </div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRs1LSFxl7j1LCaiOU_CNO3r5N0PTxCY4&libraries=places&callback=initMap" async defer >

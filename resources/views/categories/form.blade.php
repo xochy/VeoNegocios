@@ -1,43 +1,79 @@
 <div class="form-group">
-    <label for="">Nombre</label>
+    <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Nombre</label>
     <div class="input-group">
         <div class="input-group-prepend">
             <span class="input-group-text" id="imageGroup1"><i class="fas fa-object-group"></i></span>
         </div>
-        <input type="text" name="name" class="form-control" value="@isset($category->name){{$category->name}}@endisset">
+        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" 
+        value="@if(isset($category->name)){{$category->name}}@else{{ old('name') }}@endif" autofocus>
+
+        @error('name')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+
     </div>   
 </div>
 <div class="form-group">
-    <label for="">Descripción</label>
+    <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Descripción</label>
     <div class="input-group">
         <div class="input-group-prepend">
             <span class="input-group-text" id="imageGroup1"><i class="fas fa-tag"></i></span>
         </div>
-        <input type="text" name="description" class="form-control" value="@isset($category->description){{$category->description}}@endisset">
+        <input type="text" name="description" class="form-control @error('description') is-invalid @enderror" 
+        value="@if(isset($category->description)){{$category->description}}@else{{ old('description') }}@endif">
+
+        @error('description')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+
     </div>    
 </div>
+@isset ($category->images)
+<div class="form-group">
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        Ya se han seleccionado <strong>imágenes</strong> <i class="fas fa-image"></i> para la categoría, si desea cambiarlas, puede hacerlo seleccionando nuevos archivos.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+@endisset
 <div class="form-row">
     <div class="form-group col-md-6">    
-        <label for="">Imagen 1</label>
+        <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Imagen 1</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="imageGroup1"><i class="fas fa-file-image"></i></span>
             </div>
             <div class="custom-file">                
-                <input type="file" class="custom-file-input" id="image1" lang="es" name="image1" aria-describedby="imageGroup1">
+                <input type="file" class="custom-file-input @error('image1') is-invalid @enderror" id="image1" lang="es" name="image1" aria-describedby="imageGroup1">                
                 <label class="custom-file-label" for="image1">Seleccionar Archivo</label>
-            </div>    
-        </div>        
+
+                @error('image1')
+                    <span class="invalid-tooltip" role="alert">{{ $message }}</span>
+                @enderror  
+                
+            </div>
+        </div>   
     </div>
     <div class="form-group col-md-6">
-        <label for="">Imagen 2</label>
+        <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Imagen 2</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="imageGroup2"><i class="fas fa-file-image"></i></span>
             </div>
             <div class="custom-file">                
-                <input type="file" class="custom-file-input" id="image2" lang="es" name="image2" aria-describedby="imageGroup2">
+                <input type="file" class="custom-file-input @error('image2') is-invalid @enderror" id="image2" lang="es" name="image2" aria-describedby="imageGroup2">
                 <label class="custom-file-label" for="image2">Seleccionar Archivo</label>
+
+                @error('image2')
+                    <span class="invalid-tooltip" role="alert">{{ $message }}</span>
+                @enderror 
+                
             </div>    
         </div>   
     </div>

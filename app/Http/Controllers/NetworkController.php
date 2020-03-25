@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Contact;
+use App\Http\Requests\StoreNetworkRequest;
 use App\Network;
+use App\Store;
 use Illuminate\Http\Request;
 
 class NetworkController extends Controller
@@ -28,24 +31,39 @@ class NetworkController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display the specified resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Store  $store
      */
-    public function create()
+    public function createFromStore(Store $store)
     {
-        //
+        $contacts = Contact::orderBy('id', 'asc')->get();
+        return view('networks.create')->with(['store' => $store, 'contacts' => $contacts]);
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeFromStore(StoreNetworkRequest $request, Store $store)
     {
-        //
+        $network = new Network();
+        $network->description = $request->description;
+        $contact = Contact::where('id', $request->input('contacts'))->first();
+        
+        if($contact->name == 'YouTube'){
+            $network->description = str_replace('watch?v=', 'embed/', $request->description);
+        }
+        else{
+            $network->description = $request->description;
+        }
+
+        $network->contact_id = $contact->id;
+        $store->networks()->save($network);
+
+        return redirect()->route('networks.stored', $store);
     }
 
     /**
@@ -67,7 +85,9 @@ class NetworkController extends Controller
      */
     public function edit(Network $network)
     {
-        //
+        $contacts = Contact::orderBy('id', 'asc')->get();
+        $selectedContact = Contact::find($network->contact_id);
+        return view('networks.edit')->with(['network' => $network, 'contacts' => $contacts, 'selectedContact' => $selectedContact]);
     }
 
     /**
@@ -79,7 +99,21 @@ class NetworkController extends Controller
      */
     public function update(Request $request, Network $network)
     {
-        //
+        $network->fill($request->all());
+        
+        $contact = Contact::where('id', $request->input('contacts'))->first();
+        
+        if($contact->name == 'YouTube'){
+            $network->description = str_replace('watch?v=', 'embed/', $request->description);
+        }
+        else{
+            $network->description = $request->description;
+        }
+        
+        $network->contact_id = $contact->id;
+        $network->save();
+
+        return redirect()->route('networks.updated', $network->store);
     }
 
     /**
@@ -90,6 +124,19 @@ class NetworkController extends Controller
      */
     public function destroy(Network $network)
     {
-        //
+        $network->delete();
+
+        return redirect()->route('networks.deleted', $network->store);
+    }
+
+    /**
+     * Send to confirmation view.
+     *
+     * @param  \App\Address  $address
+     * @return \Illuminate\Http\Response
+     */
+    public function confirmAction(Network $network)
+    {
+        return view('networks.confirmAction', compact('network'));
     }
 }

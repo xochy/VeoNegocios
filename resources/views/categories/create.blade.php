@@ -12,9 +12,10 @@
 </nav>
 
 <div class="card">
-    <div class="card-header">Formulario de registro de categoría</div>
+    <div class="card-header">Formulario de registro de categoría
+        <small id="scheduleHelp" class="form-text text-muted">Los campos obligatorios están marcados con el símbolo <i class="fas fa-star-of-life colorFormRequiredIcon"></i></small>
+    </div>
     <div class="card-body">
-        @include('common.errors')
         <form class="form-group" method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data" id="createForm">
             @csrf
             @include('categories.form')

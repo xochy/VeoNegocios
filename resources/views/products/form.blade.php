@@ -5,7 +5,14 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="imageGroup1"><i class="fas fa-object-group"></i></span>
             </div>
-            <input type="text" name="name" class="form-control" value="@isset($product->name){{$product->name}}@endisset">
+            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+            value="@if(isset($product->name)){{$product->name}}@else{{ old('name') }}@endif" autofocus>
+
+            @error('name')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
         <small id="scheduleHelp" class="form-text text-muted">Debe especificar el nombre correcto del producto o servicio que ofrece.</small>
     </div>
@@ -15,8 +22,14 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="imageGroup1"><i class="fas fa-dollar-sign"></i></span>
             </div>
-            <input type="text" id="price" name="price" class="form-control" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="$100.00"
-            value="@isset($product->price){{$product->price}}@endisset">
+            <input type="text" id="price" name="price" class="form-control @error('price') is-invalid @enderror" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="$100.00"
+            value="@if(isset($product->price)){{$product->price}}@else{{ old('price') }}@endif">
+        
+            @error('price')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
         <small id="scheduleHelp" class="form-text text-muted">Debe especificar el precio del producto o servicio que ofrece.</small>
     </div>
@@ -27,7 +40,14 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="imageGroup1"><i class="fas fa-tag"></i></span>
         </div>
-        <input type="text" name="description" class="form-control" value="@isset($product->description){{$product->description}}@endisset">
+        <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
+        value="@if(isset($product->description)){{$product->description}}@else{{ old('description') }}@endif">
+
+        @error('description')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
     </div>
     <small id="scheduleHelp" class="form-text text-muted">Es recomendable especificar una descripción del producto o servicio, de esta manera los usuarios conocerán más detalles de lo que ofrece.</small>
 </div>
@@ -46,8 +66,12 @@
             <span class="input-group-text" id="imageGroup1"><i class="fas fa-file-image"></i></span>
         </div>
         <div class="custom-file">                
-            <input type="file" class="custom-file-input" id="image" lang="es" name="image" aria-describedby="imageGroup1">
+            <input type="file" class="custom-file-input @error('image') is-invalid @enderror" id="image" lang="es" name="image" aria-describedby="imageGroup1">
             <label class="custom-file-label" for="image1">Seleccionar Archivo</label>
+
+            @error('image')
+                <span class="invalid-tooltip" role="alert">{{ $message }}</span>
+            @enderror
         </div>    
     </div>  
 </div>

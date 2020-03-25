@@ -20,6 +20,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Store');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
     public function authorizeRolesShow($roles)
     {
         if ($this->hasAnyRole($roles))

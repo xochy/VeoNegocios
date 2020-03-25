@@ -13,6 +13,8 @@
 
 use App\Address;
 use App\Category;
+use App\Comment;
+use App\Network;
 use App\Product;
 use App\Store;
 
@@ -59,6 +61,9 @@ Route::get('/stores/{store}/confirmAction', 'StoreController@confirmAction')->na
 Route::get('/cancelActionStore/{store}', function (Store $store) {
     return redirect()->route('stores.show', $store)->with('statusCancel', 'Acción cancelada');
 })->name('stores.cancelAction');
+
+//!Rutas para los usuarios costumer
+Route::get('/stores/{user}/showStoreCostumer', 'StoreController@showStoreCostumer')->name('stores.showStoreCostumer');
 
 //?Rutas para Addresses
 Route::resource('addresses', 'AddressController');
@@ -109,3 +114,53 @@ Route::get('/products/{product}/confirmAction', 'ProductController@confirmAction
 Route::get('/cancelActionProduct/{product}', function (Product $product) {
     return redirect()->route('stores.show', $product->store)->with('statusCancel', 'Acción cancelada');
 })->name('products.cancelAction');
+
+//?Rutas para contactos
+Route::resource('networks', 'NetworkController');
+
+Route::get('/createNetwork/{store}', 'NetworkController@createFromStore')->name('networks.createFromStore');
+
+Route::post('/storeNetwork/{store}', 'NetworkController@storeFromStore')->name('networks.storeFromStore');
+
+Route::get('/storedNetwork/{store}', function (Store $store) {
+    return redirect()->route('stores.show', $store)->with('statusSuccess', 'Contacto almacenado correctamente');
+})->name('networks.stored');
+
+Route::get('/updatedNetwork/{store}', function (Store $store) {
+    return redirect()->route('stores.show', $store)->with('statusSuccess', 'El contacto se ha actualizado correctamente');
+})->name('networks.updated');
+
+Route::get('/deletedNetwork/{store}', function (Store $store) {
+    return redirect()->route('stores.show', $store)->with('statusSuccess', 'El contacto se ha eliminado correctamente');
+})->name('networks.deleted');
+
+Route::get('/networks/{network}/confirmAction', 'NetworkController@confirmAction')->name('networks.confirmAction');
+
+Route::get('/cancelActionNetwork/{network}', function (Network $network) {
+    return redirect()->route('stores.show', $network->store)->with('statusCancel', 'Acción cancelada');
+})->name('networks.cancelAction');
+
+//?Rutas para comentarios
+Route::resource('comments', 'CommentController');
+
+Route::get('/createComment/{store}', 'CommentController@createFromStore')->name('comments.createFromStore');
+
+Route::post('/storeComment/{store}', 'CommentController@storeFromStore')->name('comments.storeFromStore');
+
+Route::get('/storedComment/{store}', function (Store $store) {
+    return redirect()->route('stores.show', $store)->with('statusSuccess', 'Comentario creado correctamente');
+})->name('comments.stored');
+
+Route::get('/updatedComment/{store}', function (Store $store) {
+    return redirect()->route('stores.show', $store)->with('statusSuccess', 'El comentario se ha actualizado correctamente');
+})->name('comments.updated');
+
+Route::get('/deletedComment/{store}', function (Store $store) {
+    return redirect()->route('stores.show', $store)->with('statusSuccess', 'El comentario se ha eliminado correctamente');
+})->name('comments.deleted');
+
+Route::get('/comments/{comment}/confirmAction', 'CommentController@confirmAction')->name('comments.confirmAction');
+
+Route::get('/cancelActionComment/{comment}', function (Comment $comment) {
+    return redirect()->route('stores.show', $comment->store)->with('statusCancel', 'Acción cancelada');
+})->name('comments.cancelAction');

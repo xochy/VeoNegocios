@@ -17,7 +17,6 @@
         <small id="scheduleHelp" class="form-text text-muted">Los campos obligatorios están marcados con el símbolo <i class="fas fa-star-of-life colorFormRequiredIcon"></i></small>
     </div>
     <div class="card-body">
-        @include('common.errors')
         <form class="form-group" method="POST" action="{{ route('stores.storeFromCategory', $category->slug) }}" enctype="multipart/form-data">
             @csrf
             @include('stores.form')

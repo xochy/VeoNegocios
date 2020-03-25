@@ -12,17 +12,23 @@
                     <h2>{{$product->price}}</h2>
                     <a href="#" class="btn btn-primary mb-2">Ver más...</a>
                 </div>
-                <div class="card-footer">
-                    <small class="text-muted">Agregado el {{$product->created_at}} </small><br>
-                    <small class="text-muted">Última modificación: {{$product->created_at}} </small><br><br>
-                    <a class="btn btn-outline-primary btn-sm" href="{{ route('products.edit', $product->slug )}}"><i class="far fa-edit"></i> Editar</a>
-                    <a class="btn btn-outline-danger btn-sm" href="{{ route('products.confirmAction', $product->slug )}}"><i class="far fa-trash-alt"></i> Eliminar</a>
-                </div>
+                @if (Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                    <div class="card-footer">
+                        <small class="text-muted">Agregado el {{$product->created_at}} </small><br>
+                        <small class="text-muted">Última modificación: {{$product->updated_at}} </small><br><br>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ route('products.edit', $product->slug )}}"><i class="far fa-edit"></i> Editar</a>
+                        <a class="btn btn-outline-danger btn-sm" href="{{ route('products.confirmAction', $product->slug )}}"><i class="far fa-trash-alt"></i> Eliminar</a>
+                    </div>
+                @endif
             </div>
         </div>
     @empty
         <div class="container">
-            <h6>No existen productos <span class="badge badge-warning">Puede hacer clic en el botón de arriba para agregar un nuevo producto</span></h6>
+            <h6>No existen productos 
+                @if (Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                    <span class="badge badge-warning">Puede hacer clic en el botón de arriba para agregar un nuevo producto</span>
+                @endif
+            </h6>
         </div>
-    @endforelse 
+    @endforelse
 </div>

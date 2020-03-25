@@ -13,9 +13,10 @@
 </nav>
 
 <div class="card">
-    <div class="card-header">Formulario de edición de negocio</div>
+    <div class="card-header">Formulario de edición de negocio
+        <small id="scheduleHelp" class="form-text text-muted">Los campos obligatorios están marcados con el símbolo <i class="fas fa-star-of-life colorFormRequiredIcon"></i></small>
+    </div>
     <div class="card-body">
-        @include('common.errors')
         <form class="form-group" method="POST" action="{{ route('stores.update', $store->slug) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf

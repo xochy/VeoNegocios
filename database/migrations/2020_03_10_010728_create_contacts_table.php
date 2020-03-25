@@ -18,6 +18,7 @@ class CreateContactsTable extends Migration
             $table->string('name');
             $table->string('color');
             $table->string('iconClass');
+            $table->string('placeholder');
             $table->timestamps();
         });
     }

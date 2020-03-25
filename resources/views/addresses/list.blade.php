@@ -11,7 +11,11 @@
                         aria-controls="nav-profile" aria-selected="false">Sucursal {{$loop->iteration}}</a>
                     @endif
                 @empty
-                <h6 class="mt-3">No existen direcciones <span class="badge badge-warning">Puede hacer clic en el botón de arriba para agregar una nueva dirección</span></h6>
+                    <h6 class="mt-3">No existen direcciones 
+                        @if (Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                            <span class="badge badge-warning">Puede hacer clic en el botón de arriba para agregar una nueva dirección</span>
+                        @endif
+                    </h6>
                 @endforelse         
             </div>
         </nav>
@@ -27,12 +31,14 @@
                             <p class="card-text">{{$address->reference}}</p>
                             <p class="card-text"><small class="text-muted"><i class="fas fa-clock"></i> {{$address->schedule}}</small></p>
                         </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Agregado el {{$address->created_at}} </small><br>
-                            <small class="text-muted">Última modificación: {{$address->created_at}} </small><br><br>
-                            <a class="btn btn-outline-primary btn-sm" href="{{ route('addresses.edit', $address->slug )}}"><i class="far fa-edit"></i> Editar</a>
-                            <a class="btn btn-outline-danger btn-sm" href="{{ route('addresses.confirmAction', $address->slug )}}"><i class="far fa-trash-alt"></i> Eliminar</a>
-                        </div>
+                        @if (Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                            <div class="card-footer">
+                                <small class="text-muted">Agregado el {{$address->created_at}} </small><br>
+                                <small class="text-muted">Última modificación: {{$address->updated_at}} </small><br><br>
+                                <a class="btn btn-outline-primary btn-sm" href="{{ route('addresses.edit', $address->slug )}}"><i class="far fa-edit"></i> Editar</a>
+                                <a class="btn btn-outline-danger btn-sm" href="{{ route('addresses.confirmAction', $address->slug )}}"><i class="far fa-trash-alt"></i> Eliminar</a>
+                            </div>
+                        @endif
                     </div>                    
                 </div>
             @endforeach
@@ -70,7 +76,6 @@ function initMap() {
             });
 
             marker.setMap(map); 
-    });
-    
+    });    
 }
 </script>

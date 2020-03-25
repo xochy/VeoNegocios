@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Store extends Model
 {
@@ -32,6 +33,16 @@ class Store extends Model
     public function addresses()
     {
         return $this->hasMany('App\Address');
+    }
+
+    public function networks()
+    {
+        return $this->hasMany('App\Network');
+    }
+    
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
     }
 
     public function images()

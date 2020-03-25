@@ -68,10 +68,14 @@
 
             <p class="font-weight-normal">{{$category->description}}</p>
             {{-- <p class="font-weight-normal">by <a><strong>Carine Fox</strong></a>, 19/08/2016</p> --}}
-
-            <a  class="btn btn-primary" href="{{ route('stores.createFromCategory', $category->slug) }}"><i class="far fa-plus-square"></i> Crear nuevo negocio</a>
-            <a class="btn btn-warning" href="{{ route('categories.edit', $category->slug )}}" ><i class="far fa-edit"></i> Editar categoría</a>
-            <a class="btn btn-danger" href="{{ route('categories.confirmAction', $category->slug )}}"><i class="far fa-trash-alt"></i> Eliminar categoría</a>
+            @if (Auth::user()->authorizeRolesShow(['administrator', 'collector']))
+                <a  class="btn btn-primary" href="{{ route('stores.createFromCategory', $category->slug) }}"><i class="far fa-plus-square"></i> Crear nuevo negocio</a>
+            @endif
+            
+            @if (Auth::user()->authorizeRolesShow('administrator'))
+                <a class="btn btn-warning" href="{{ route('categories.edit', $category->slug )}}" ><i class="far fa-edit"></i> Editar categoría</a>
+                <a class="btn btn-danger" href="{{ route('categories.confirmAction', $category->slug )}}"><i class="far fa-trash-alt"></i> Eliminar categoría</a>
+            @endif
         </div>
     </div>
 </div>

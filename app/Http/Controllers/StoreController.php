@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\StoreStoreRequest;
+use App\Http\Requests\UpdateStoreRequest;
 use App\Store;
 use Intervention\Image\Facades\Image as ImageResize;
 use App\Image;
+use App\User;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -28,7 +30,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $stores = Store::all();
+        $stores = Store::paginate(15);
         return view('stores.index', compact('stores'));
     }
 
@@ -53,27 +55,16 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //print($request->name);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function storeFromCategory(StoreStoreRequest $request, Category $category)
     {
         $store = new Store();
 
-        $store->name = $request->name;
+        $store->name        = $request->name;
         $store->description = $request->description;
-        $store->slug = 'store'.time();
+        $store->slug        = 'store'.time();
 
         $store->category_id = $category->id;
-        $store->user_id = auth()->user()->id;         
+        $store->user_id     = auth()->user()->id;         
 
         $store->save();
 
@@ -115,13 +106,13 @@ class StoreController extends Controller
      */
     public function storeImage($file, $position, $width, $height, $tittle = null, $description = null)
     {
-        $url = time().$file->getClientOriginalName();
+        $url = time().$position.$file->getClientOriginalName();
         $file->move(public_path().'/images/', $url);      
         
-        $imageStore = new Image();
-        $imageStore->url = $url;
-        $imageStore->position = $position;
-        $imageStore->tittle = $tittle;
+        $imageStore              = new Image();
+        $imageStore->url         = $url;
+        $imageStore->position    = $position;
+        $imageStore->tittle      = $tittle;
         $imageStore->description = $description;
         $imageStore->save();
 
@@ -147,9 +138,23 @@ class StoreController extends Controller
      * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
+    public function showStoreCostumer(User $user)
+    {        
+        $store = Store::where('user_id', $user->id)->first();
+        
+        dd($store);
+        //return view('stores.show', compact('store'));
+    }
+    
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Store  $store
+     * @return \Illuminate\Http\Response
+     */
     public function show(Store $store)
     {
-        return view('stores.show')->with('store', $store);
+        return view('stores.show', compact('store'));
     }
 
     /**
@@ -170,7 +175,7 @@ class StoreController extends Controller
      * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Store $store)
+    public function update(UpdateStoreRequest $request, Store $store)
     {
         $store->fill($request->except(['profileImage', 'coverImage1', 'coverImage2', 'coverImage3']));
 
@@ -238,21 +243,25 @@ class StoreController extends Controller
             $image->save();
         }
 
-        if(\File::exists(public_path() . '/images/' . $store->images->where('position', 2)->first()->url)){
+        if(isset($store->images->where('position', 2)->first()->url)){
+            if(\File::exists(public_path() . '/images/' . $store->images->where('position', 2)->first()->url)){
 
-            $image = $store->images->where('position', 2)->first();
-            $image->tittle = $request->tittleCoverImage2;
-            $image->description = $request->descriptionCoverImage2;
-            $image->save();
+                $image = $store->images->where('position', 2)->first();
+                $image->tittle = $request->tittleCoverImage2;
+                $image->description = $request->descriptionCoverImage2;
+                $image->save();
+            }
         }
 
-        if(\File::exists(public_path() . '/images/' . $store->images->where('position', 3)->first()->url)){
+        if(isset($store->images->where('position', 3)->first()->url)){
+            if(\File::exists(public_path() . '/images/' . $store->images->where('position', 3)->first()->url)){
 
-            $image = $store->images->where('position', 3)->first();
-            $image->tittle = $request->tittleCoverImage3;
-            $image->description = $request->descriptionCoverImage3;
-            $image->save();
-        }
+                $image = $store->images->where('position', 3)->first();
+                $image->tittle = $request->tittleCoverImage3;
+                $image->description = $request->descriptionCoverImage3;
+                $image->save();
+            }
+        }        
     }
 
      /**

@@ -30,30 +30,31 @@
 
 @if (Auth::user()->authorizeRolesShow('administrator'))
     <a href="{{ route('categories.create') }}" class="btn btn-primary"><i class="far fa-plus-square"></i> Crear nueva categoría</a>
-@endif  
-    <div class="row mt-3">
-        @foreach ($categories as $category)
-        <div class="col-md-3 col-sm-6">
-            <div class="product-grid2">
-                <div class="product-image2">
-                    <a href="/categories/{{ $category->slug }}">
-                        @foreach ($category->images as $image)
-                            <img @if ($loop->first)
-                                class="pic-1"
-                            @else
-                                class="pic-2"
-                            @endif src="/images/{{$image->url}}">
-                        @endforeach
-                    </a>
-                    <a class="add-to-cart" href="/categories/{{ $category->slug }}">Ver más...</a>
-                </div>
-                <div class="product-content">
-                    <h3 class="title"><a href="#">{{ $category->name }}</a></h3>
-                    <span class="price">{{ $category->description }}</span>
-                </div>
+@endif
+
+<div class="row mt-3">
+    @foreach ($categories as $category)
+    <div class="col-md-3 col-sm-6">
+        <div class="product-grid2">
+            <div class="product-image2">
+                <a href="/categories/{{ $category->slug }}">
+                    @foreach ($category->images as $image)
+                        <img @if ($loop->first)
+                            class="pic-1"
+                        @else
+                            class="pic-2"
+                        @endif src="/images/{{$image->url}}">
+                    @endforeach
+                </a>
+                <a class="add-to-cart" href="/categories/{{ $category->slug }}">Ver más...</a>
+            </div>
+            <div class="product-content">
+                <h3 class="title"><a href="#">{{ $category->name }}</a></h3>
+                <span class="price">{{ $category->description }}</span>
             </div>
         </div>
-        @endforeach
     </div>
+    @endforeach
 </div>
+
 @endsection

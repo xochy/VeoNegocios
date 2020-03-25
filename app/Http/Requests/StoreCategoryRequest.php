@@ -28,6 +28,14 @@ class StoreCategoryRequest extends FormRequest
             'description' => 'required|max:100|min:10',
             'image1' => 'required',
             'image2' => 'required'
+        ];     
+    }
+
+    public function messages()
+    {
+        return [
+            'image1.required' => 'Es necesario seleccionar un archivo para el campo de imagen 1.',
+            'image2.required' => 'Es necesario seleccionar un archivo para el campo de imagen 2.'
         ];
     }
 }

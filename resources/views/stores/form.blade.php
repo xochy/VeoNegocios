@@ -1,11 +1,26 @@
 {{-- campo para el nombre del negocio --}}
 <div class="form-group">
-    <i class="fas fa-star-of-life colorFormRequiredIcon"></i> <label for="">Nombre</label>
-    <input type="text" name="name" class="form-control" value="@isset($store->name){{$store->name}}@endisset" placeholder="Ej. VeoNegocios">
+    <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Nombre</label>
+    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Ej. VeoNegocios"
+    value="@if(isset($store->name)){{$store->name}}@else{{ old('name') }}@endif" autofocus>
+
+    @error('name')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+
 </div>
 <div class="form-group">
-    <i class="fas fa-star-of-life colorFormRequiredIcon"></i> <label for="">Descripción</label>
-    <input type="text" name="description" class="form-control" value="@isset($store->description){{$store->description}}@endisset" placeholder="Ej. Somos una empresea dedicada a la publicidad">
+    <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Descripción</label>
+    <input type="text" name="description" class="form-control @error('description') is-invalid @enderror" placeholder="Ej. Somos una empresea dedicada a la publicidad"
+    value="@if(isset($store->description)){{$store->description}}@else{{ old('description') }}@endif">
+
+    @error('description')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
 </div>
 <div class="form-group">
     <div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -16,14 +31,18 @@
     </div>
 </div>
 <div class="form-group">
-    <i class="fas fa-star-of-life colorFormRequiredIcon"></i> <label for="">Imagen de perfil de negocio</label>
+    <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Imagen de perfil de negocio</label>
     <div class="input-group">
         <div class="input-group-prepend">
             <span class="input-group-text"><i class="fas fa-image"></i></i></span>
         </div>
         <div class="custom-file">                
-            <input type="file" class="custom-file-input" id="profileImage" lang="es" name="profileImage" aria-describedby="imageGroup1">
+            <input type="file" class="custom-file-input @error('profileImage') is-invalid @enderror" id="profileImage" lang="es" name="profileImage" aria-describedby="imageGroup1">
             <label class="custom-file-label" for="profileImage">Seleccionar Archivo</label>
+
+            @error('profileImage')
+                <span class="invalid-tooltip" role="alert">{{ $message }}</span>
+            @enderror  
         </div>    
     </div>  
 </div>
@@ -56,14 +75,18 @@
 </div>
 <div class="form-row">
     <div class="form-group col-md-3">
-        <i class="fas fa-star-of-life colorFormRequiredIcon"></i> <label for="">Imagen de portada 1</label>
+        <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Imagen de portada 1</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-image"></i></span>
             </div>
             <div class="custom-file">                
-                <input type="file" class="custom-file-input" id="coverImage1" lang="es" name="coverImage1">
+                <input type="file" class="custom-file-input @error('coverImage1') is-invalid @enderror" id="coverImage1" lang="es" name="coverImage1">
                 <label class="custom-file-label" for="coverImage1">Seleccionar Archivo</label>
+
+                @error('coverImage1')
+                    <span class="invalid-tooltip" role="alert">{{ $message }}</span>
+                @enderror  
             </div>    
         </div> 
     </div> 
@@ -73,8 +96,18 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-object-group"></i></span>
             </div>
-            <input type="text" name="tittleCoverImage1" class="form-control"
-            @isset($store->images)@if($store->hasTittleCoverImage(1)) value="{{$store->images->where('position', 1)->first()->tittle}}" @endif @endisset>
+            <input type="text" name="tittleCoverImage1" class="form-control @error('tittleCoverImage1') is-invalid @enderror"
+            @if (isset($store->images))
+                @if($store->hasTittleCoverImage(1)) value="{{$store->images->where('position', 1)->first()->tittle}}" @endif
+            @else
+                value="{{ old('tittleCoverImage1') }}"
+            @endif>
+        
+            @error('tittleCoverImage1')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>  
     </div>
     <div class="form-group col-md-6">
@@ -83,8 +116,18 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-tag"></i></span>
             </div>
-            <input type="text" name="descriptionCoverImage1" class="form-control" 
-            @isset($store->images)@if($store->hasDescriptionCoverImage(1)) value="{{$store->images->where('position', 1)->first()->description}}" @endif @endisset>
+            <input type="text" name="descriptionCoverImage1" class="form-control @error('descriptionCoverImage1') is-invalid @enderror"
+            @if (isset($store->images))
+                @if($store->hasDescriptionCoverImage(1)) value="{{$store->images->where('position', 1)->first()->description}}" @endif
+            @else
+                value="{{ old('descriptionCoverImage1') }}"
+            @endif>
+        
+            @error('descriptionCoverImage1')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>    
     </div>
 </div>
@@ -117,8 +160,18 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-object-group"></i></span>
             </div>
-            <input type="text" name="tittleCoverImage2" class="form-control"
-            @isset($store->images)@if($store->hasTittleCoverImage(2)) value="{{$store->images->where('position', 2)->first()->tittle}}" @endif @endisset>
+            <input type="text" name="tittleCoverImage2" class="form-control @error('tittleCoverImage2') is-invalid @enderror"
+            @if (isset($store->images))
+                @if($store->hasTittleCoverImage(2)) value="{{$store->images->where('position', 2)->first()->tittle}}" @endif
+            @else
+                value="{{ old('tittleCoverImage2') }}"
+            @endif>
+
+            @error('tittleCoverImage2')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>  
     </div>
     <div class="form-group col-md-6">
@@ -127,8 +180,18 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-tag"></i></span>
             </div>
-            <input type="text" name="descriptionCoverImage2" class="form-control" 
-            @isset($store->images)@if($store->hasDescriptionCoverImage(2)) value="{{$store->images->where('position', 2)->first()->description}}" @endif @endisset>
+            <input type="text" name="descriptionCoverImage2" class="form-control @error('descriptionCoverImage2') is-invalid @enderror"
+            @if (isset($store->images))
+                @if($store->hasDescriptionCoverImage(2)) value="{{$store->images->where('position', 2)->first()->description}}" @endif
+            @else
+                value="{{ old('descriptionCoverImage2') }}"
+            @endif>
+
+            @error('descriptionCoverImage2')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>    
     </div>
 </div>
@@ -161,8 +224,18 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-object-group"></i></span>
             </div>
-            <input type="text" name="tittleCoverImage3" class="form-control"
-            @isset($store->images)@if($store->hasTittleCoverImage(3)) value="{{$store->images->where('position', 3)->first()->tittle}}" @endif @endisset>
+            <input type="text" name="tittleCoverImage3" class="form-control @error('tittleCoverImage3') is-invalid @enderror"
+            @if (isset($store->images))
+                @if($store->hasTittleCoverImage(3)) value="{{$store->images->where('position', 3)->first()->tittle}}" @endif
+            @else
+                value="{{ old('tittleCoverImage3') }}"
+            @endif>
+
+            @error('tittleCoverImage3')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>  
     </div>
     <div class="form-group col-md-6">
@@ -171,8 +244,18 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-tag"></i></span>
             </div>
-            <input type="text" name="descriptionCoverImage3" class="form-control" 
-            @isset($store->images)@if($store->hasDescriptionCoverImage(3)) value="{{$store->images->where('position', 3)->first()->description}}" @endif @endisset>
+            <input type="text" name="descriptionCoverImage3" class="form-control @error('descriptionCoverImage3') is-invalid @enderror"
+            @if (isset($store->images))
+                @if($store->hasDescriptionCoverImage(3)) value="{{$store->images->where('position', 3)->first()->description}}" @endif
+            @else
+                value="{{ old('descriptionCoverImage3') }}"
+            @endif>
+
+            @error('descriptionCoverImage3')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>    
     </div>
 </div>

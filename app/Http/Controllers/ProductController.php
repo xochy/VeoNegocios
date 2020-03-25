@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Product;
 use App\Store;
 use Intervention\Image\Facades\Image as ImageResize;
@@ -56,7 +57,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeFromStore(Request $request, Store $store)
+    public function storeFromStore(StoreProductRequest $request, Store $store)
     {
         $product              = new Product();
         $product->name        = $request->name;
@@ -147,6 +148,13 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $product->fill($request->except('image'));
+
+        if($request->offered == 'on'){
+            $product->offered = true;
+        }
+        else{
+            $product->offered = false;
+        }
 
         if($request->hasFile('image'))
         {

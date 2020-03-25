@@ -24,18 +24,36 @@ class StoreStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:50|min:3',
-            'description' => 'required|max:100|min:10',
+            'name' => 'required|max:40|min:3',
+            'description' => 'required|max:150|min:10',
             'profileImage' => 'required',
-            'coverImage1' => 'required'
+            'coverImage1' => 'required',
+            'tittleCoverImage1' => 'nullable|max:30|min:3',
+            'descriptionCoverImage1' => 'nullable|max:150|min:8',
+            'tittleCoverImage2' => 'nullable|max:30|min:3',
+            'descriptionCoverImage2' => 'nullable|max:150|min:8',
+            'tittleCoverImage3' => 'nullable|max:30|min:3',
+            'descriptionCoverImage3' => 'nullable|max:150|min:8'
         ];
     }
 
     public function messages()
     {
         return [
-            'profileImage.required' => 'El campo de imagen de perfil de negocio es obligatorio',
-            'coverImage1.required' => 'El campo de imagen de portada 1 es obligatorio'
+            'profileImage.required' => 'Es necesario seleccionar un archivo para el campo imagen de perfil.',
+            'coverImage1.required' => 'Es necesario seleccionar un archivo para el campo imagen portada 1.',
+            'tittleCoverImage1.max' => 'El título de la imagen de portada 1 no debe ser mayor que 30 caracteres.',
+            'tittleCoverImage1.min' => 'El título de la imagen de portada 1 debe contener al menos 3 caracteres.',
+            'descriptionCoverImage1.max' => 'La descripción de la imagen de portada 1 no debe ser mayor que 150 caracteres.',
+            'descriptionCoverImage1.min' => 'La descripción de la imagen de portada 1 debe contener al menos 3 caracteres.',
+            'tittleCoverImage2.max' => 'El título de la imagen de portada 2 no debe ser mayor que 30 caracteres.',
+            'tittleCoverImage2.min' => 'El título de la imagen de portada 2 debe contener al menos 3 caracteres.',
+            'descriptionCoverImage2.max' => 'La descripción de la imagen de portada 2 no debe ser mayor que 150 caracteres.',
+            'descriptionCoverImage2.min' => 'La descripción de la imagen de portada 2 debe contener al menos 3 caracteres.',
+            'tittleCoverImage3.max' => 'El título de la imagen de portada 3 no debe ser mayor que 30 caracteres.',
+            'tittleCoverImage3.min' => 'El título de la imagen de portada 3 debe contener al menos 3 caracteres.',
+            'descriptionCoverImage3.max' => 'La descripción de la imagen de portada 3 no debe ser mayor que 150 caracteres.',
+            'descriptionCoverImage3.min' => 'La descripción de la imagen de portada 3 debe contener al menos 3 caracteres.'
         ];
     }
 }

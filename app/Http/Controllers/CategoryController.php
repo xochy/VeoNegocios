@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use Intervention\Image\Facades\Image as ImageResize;
 use App\Image;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -134,7 +134,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->fill($request->except(['image1', 'image2']));
 

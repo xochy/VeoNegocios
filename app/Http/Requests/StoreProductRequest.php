@@ -24,10 +24,17 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'        => 'required|max: 50|min      : 3',
-            'description' => 'required|max: 200|min     : 5',
-            'price'       => 'required|max: 100000.0|min: 1.0',
-            'offered'     => 'required'
+            'name'        => 'required|max: 50|min : 3',
+            'description' => 'nullable|max: 200|min: 5',
+            'price'       => 'required|max: 13|min : 5',
+            'image'       => 'required'  
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'image.required' => 'Es necesario seleccionar un archivo para el campo de imagen de producto / servicio.'
         ];
     }
 }

@@ -65,18 +65,19 @@
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
                         </li> --}}
+                    
                     </ul>                  
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
 
                         {{-- Formulario del buscador --}}
-                        {{-- <li>
+                        <li>
                             <form class="form-inline my-2 my-lg-0">
                                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
                                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
                             </form>
-                        </li> --}}
+                        </li>
 
                         <!-- Authentication Links -->
                         @guest

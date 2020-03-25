@@ -28,7 +28,7 @@
     </div>
 @endif
 
-@if (Auth::user()->authorizeRolesShow('administrator'))
+@if (Auth::user() != null && Auth::user()->authorizeRolesShow('administrator'))
     <a href="{{ route('categories.create') }}" class="btn btn-primary"><i class="far fa-plus-square"></i> Crear nueva categoría</a>
 @endif
 

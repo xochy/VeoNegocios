@@ -10,6 +10,16 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['createFromStore', 'edit']);
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -49,17 +59,6 @@ class CommentController extends Controller
         $store->save();
 
         return redirect()->route('comments.stored', $store);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        //
     }
 
     /**

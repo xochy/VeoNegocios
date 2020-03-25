@@ -31,7 +31,7 @@
                             <h4>{{$network->description}}</h4>
                         </div>
                         @endif
-                        @if (Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
                             <div class="card-footer">
                                 <small class="text-muted">Agregado el {{$network->created_at}} </small><br>
                                 <small class="text-muted">Última modificación: {{$network->updated_at}} </small><br><br>

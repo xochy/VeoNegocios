@@ -14,7 +14,7 @@
         </a>
     @empty
     <h6 class="mt-3">No existen comentarios 
-        @if (Auth::user()->authorizeRolesShow(['administrator', 'viewer']))
+        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'viewer']))
             <span class="badge badge-warning">Puede hacer clic en el botón de abajo para agregar un nuevo comentario</span>
         @endif
     </h6>

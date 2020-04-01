@@ -7,7 +7,7 @@
                     aria-controls="nav-{{$loop->iteration}}" aria-selected="true"><i class="{{App\Contact::where('id', $network->contact_id)->first()->iconClass}}"></i> {{App\Contact::where('id', $network->contact_id)->first()->name}}</a>
                 @empty
                     <h6 class="mt-3">No existen contactos 
-                        @if (Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
                             <span class="badge badge-warning">Puede hacer clic en el botón de arriba para agregar un nuevo contacto</span>
                         @endif
                     </h6>

@@ -4,7 +4,7 @@
             <div class="card text-center h-100 d-flex flex-column justify-content-between">
                 <div class="card-img">
                     <a href="/stores/{{ $store->slug }}">
-                        <img class="card-img-top" src="/images/{{$store->images->first()->url}}" alt="Card image cap">
+                        <img class="card-img-top" src="{{$public_dir_images . $store->images->first()->url}}" alt="Card image cap">
                         <span style="background: #2e84d1;"><h4><i class="fas fa-star"></i> {{number_format((float)$store->score, 1, '.', '')}}</h4></span>
                     </a>
                 </div>

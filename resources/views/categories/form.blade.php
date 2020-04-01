@@ -83,7 +83,7 @@
         <div class="col text-center">
             <figure class="figure">
                 <img class="img-fluid img-thumbnail" id="previewImage1" style="width: 250px; height: 150px; object-fit:cover;"
-                @isset($category->images) src="{{'/images/' . $category->images->where('position', 1)->first()->url}}" @endisset />
+                @isset($category->images) src="{{$public_dir_images . $category->images->where('position', 1)->first()->url}}" @endisset />
                 <figcaption class="figure-caption">Vista previa de imagen 1</figcaption>
             </figure>
         </div>
@@ -92,7 +92,7 @@
         <div class="col text-center">
             <figure class="figure">
                 <img class="img-fluid img-thumbnail" id="previewImage2" style="width: 250px; height: 150px; object-fit:cover;"
-                @isset($category->images) src="{{'/images/' . $category->images->where('position', 2)->first()->url}}" @endisset />
+                @isset($category->images) src="{{$public_dir_images . $category->images->where('position', 2)->first()->url}}" @endisset />
                 <figcaption class="figure-caption">Vista previa de imagen 2</figcaption>
             </figure>
         </div>

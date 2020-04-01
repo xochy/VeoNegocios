@@ -51,7 +51,7 @@
         <figure class="figure"> 
             {{-- Vista previa de la imagen de perfil del negocio --}}
             <img class="img-fluid img-thumbnail profileImage" id="previewProfileImage" 
-            @isset($store->images)@if($store->hasCoverImage(0)) src="{{'/images/' . $store->images->where('position', 0)->first()->url}}" @endif @endisset/>
+            @isset($store->images)@if($store->hasCoverImage(0)) src="{{$public_dir_images . $store->images->where('position', 0)->first()->url}}" @endif @endisset/>
             <figcaption class="figure-caption">Vista previa de imagen de perfil de negocio</figcaption>
         </figure>    
     </div>
@@ -135,7 +135,7 @@
     <div class="col text-center">
         <figure class="figure">
             <img class="img-fluid img-thumbnail coverImage" id="previewCoverImage1"
-            @isset($store->images)@if($store->hasCoverImage(1)) src="{{'/images/' . $store->images->where('position', 1)->first()->url}}" @endif @endisset />
+            @isset($store->images)@if($store->hasCoverImage(1)) src="{{$public_dir_images . $store->images->where('position', 1)->first()->url}}" @endif @endisset />
             <figcaption class="figure-caption">Vista previa de imagen de portada 1</figcaption>
         </figure>
     </div>
@@ -199,7 +199,7 @@
     <div class="col text-center">
         <figure class="figure">
             <img class="img-fluid img-thumbnail coverImage" id="previewCoverImage2"
-            @isset($store->images)@if($store->hasCoverImage(2)) src="{{'/images/' . $store->images->where('position', 2)->first()->url}}" @endif @endisset />
+            @isset($store->images)@if($store->hasCoverImage(2)) src="{{$public_dir_images . $store->images->where('position', 2)->first()->url}}" @endif @endisset />
             <figcaption class="figure-caption">Vista previa de imagen de portada 2</figcaption>
         </figure>
     </div>
@@ -263,7 +263,7 @@
     <div class="col text-center">
         <figure class="figure">
             <img class="img-fluid img-thumbnail coverImage" id="previewCoverImage3"
-            @isset($store->images)@if($store->hasCoverImage(3)) src="{{'/images/' . $store->images->where('position', 3)->first()->url}}" @endif @endisset />
+            @isset($store->images)@if($store->hasCoverImage(3)) src="{{$public_dir_images . $store->images->where('position', 3)->first()->url}}" @endif @endisset />
             <figcaption class="figure-caption">Vista previa de imagen de portada 3</figcaption>
         </figure>
     </div>

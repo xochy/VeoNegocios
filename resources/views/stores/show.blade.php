@@ -48,7 +48,7 @@
                                 <div class="carousel-item @if ($loop->first)
                                     active
                                 @endif">
-                                    <img class="d-block w-100" alt="Carousel Bootstrap First" src="/images/{{$image->url}}" />
+                                    <img class="d-block w-100" alt="Carousel Bootstrap First" src="{{$public_dir_images . $image->url}}" />
                                     @if (isset($image->tittle) || isset($image->description))
                                         <div class="carousel-caption panel-transparent">
                                             <h4>@if(isset($image->tittle)){{$image->tittle}}@endif</h4>

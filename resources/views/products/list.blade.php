@@ -3,7 +3,7 @@
         <div class="col-md-4 mt-3">
             <div class="card h-100 d-flex flex-column justify-content-between">
                 <div class="card-img">
-                    <img class="card-img-top" src="/images/{{$product->images->first()->url}}" alt="Card image cap">
+                    <img class="card-img-top" src="{{$public_dir_images . $product->images->first()->url}}" alt="Card image cap">
                     @if($product->offered == 1) <span><h4>Oferta</h4></span> @endif
                 </div>             
                 <div class="card-block p-3">

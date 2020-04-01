@@ -79,7 +79,7 @@
     <div class="col text-center">
         <figure class="figure">
             <img class="img-fluid img-thumbnail" id="previewImage" style="width: 350px; height: 250px; object-fit:cover;"
-            @isset($product->images) src="{{'/images/' . $product->images->first()->url}}" @endisset />
+            @isset($product->images) src="{{$public_dir_images . $product->images->first()->url}}" @endisset />
             <figcaption class="figure-caption">Vista previa de imagen de producto o servicio</figcaption>
         </figure>
     </div>

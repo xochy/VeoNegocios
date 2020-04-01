@@ -43,7 +43,7 @@
                             class="pic-1"
                         @else
                             class="pic-2"
-                        @endif src="/images/{{$image->url}}">
+                        @endif src="{{$public_dir_images . $image->url}}">
                     @endforeach
                 </a>
                 <a class="add-to-cart" href="/categories/{{ $category->slug }}">Ver más...</a>

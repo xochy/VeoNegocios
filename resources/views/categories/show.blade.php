@@ -42,7 +42,7 @@
                             active">
                         @else
                         ">
-                        @endif <img src="/images/{{$image->url}}" class="d-block w-100" alt="...">
+                        @endif <img src="{{$public_dir_images . $image->url}}" class="d-block w-100" alt="...">
                         </div>
                     @endforeach
 

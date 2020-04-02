@@ -19,6 +19,7 @@
     <link href="{{ asset('css/categories/uploadImage.css') }}" rel="stylesheet">
     <link href="{{ asset('css/categories/generalStyles.css') }}" rel="stylesheet">
      
+    <link rel="shortcut icon" href="{{$public_dir_images . 'logo.png'}}"/>
 </head>
 
 <body>

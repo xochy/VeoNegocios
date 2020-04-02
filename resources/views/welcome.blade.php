@@ -108,11 +108,14 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md animated pulse">
+                <div class="title m-b-md animated pulse" style="font-size:10vw">
                     VeoNegocios<span class="blinker">.</span>com
                 </div>
 
                 <div class="links">
+                    @guest
+                        <a href="{{ url('/home') }}">Inicio</a>
+                    @endguest
                     <a href="{{ route('categories.index') }}">Categorías</a>
                     <a href="{{ route('stores.index') }}">Negocios</a>
                 </div>

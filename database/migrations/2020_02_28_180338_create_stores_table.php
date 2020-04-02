@@ -18,6 +18,7 @@ class CreateStoresTable extends Migration
             $table->string('name', 50);
             $table->string('description', 200);
             $table->float('score', 2, 1)->default(5.0);
+            $table->boolean('activated')->default(true);
             $table->string('slug')->unique();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();   

@@ -12,7 +12,8 @@
                     <h2>{{$product->price}}</h2>
                     <a href="#" class="btn btn-primary mb-2">Ver más...</a>
                 </div>
-                @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+                    (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))
                     <div class="card-footer">
                         <small class="text-muted">Agregado el {{$product->created_at}} </small><br>
                         <small class="text-muted">Última modificación: {{$product->updated_at}} </small><br><br>
@@ -25,7 +26,8 @@
     @empty
         <div class="container">
             <h6>No existen productos 
-                @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+                    (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))
                     <span class="badge badge-warning">Puede hacer clic en el botón de arriba para agregar un nuevo producto</span>
                 @endif
             </h6>

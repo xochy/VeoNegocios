@@ -68,8 +68,10 @@
 
             <p class="font-weight-normal">{{$category->description}}</p>
             {{-- <p class="font-weight-normal">by <a><strong>Carine Fox</strong></a>, 19/08/2016</p> --}}
-            @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector']))
-                <a  class="btn btn-primary" href="{{ route('stores.createFromCategory', $category->slug) }}"><i class="far fa-plus-square"></i> Crear nuevo negocio</a>
+            @if (Auth::user() != null && Auth::user()->authorizeRolesShow('costumer'))                
+                @if (Auth::user()->stores()->count() == 0)
+                    <a  class="btn btn-primary" href="{{ route('stores.createFromCategory', $category->slug) }}"><i class="far fa-plus-square"></i> Crear nuevo negocio</a>
+                @endif
             @endif
             
             @if (Auth::user() != null && Auth::user()->authorizeRolesShow('administrator'))
@@ -80,5 +82,5 @@
     </div>
 </div>
 <h3 style="margin-bottom: -35px;">Lista de Negocios</h3>
-@include('stores.list', ['stores' => $category->stores])
+@include('stores.list', ['stores' => $category->stores->where('activated', true)])
 @endsection

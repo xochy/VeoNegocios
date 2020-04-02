@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Address;
 use App\City;
 use App\Http\Requests\StoreAddressRequest;
+use App\Http\Requests\UpdateAddressRequest;
 use App\Store;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
@@ -105,7 +106,7 @@ class AddressController extends Controller
      * @param  \App\Address  $address
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Address $address)
+    public function update(UpdateAddressRequest $request, Address $address)
     {
         $address->fill($request->all());
         $address->city_id = City::where('slug', $request->input('cities'))->first()->id;

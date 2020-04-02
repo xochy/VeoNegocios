@@ -12,7 +12,8 @@
                     @endif
                 @empty
                     <h6 class="mt-3">No existen direcciones 
-                        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                        @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+                            (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))
                             <span class="badge badge-warning">Puede hacer clic en el botón de arriba para agregar una nueva dirección</span>
                         @endif
                     </h6>
@@ -31,7 +32,8 @@
                             <p class="card-text">{{$address->reference}}</p>
                             <p class="card-text"><small class="text-muted"><i class="fas fa-clock"></i> {{$address->schedule}}</small></p>
                         </div>
-                        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                        @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+                            (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))
                             <div class="card-footer">
                                 <small class="text-muted">Agregado el {{$address->created_at}} </small><br>
                                 <small class="text-muted">Última modificación: {{$address->updated_at}} </small><br><br>

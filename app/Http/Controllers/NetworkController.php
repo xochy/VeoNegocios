@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contact;
 use App\Http\Requests\StoreNetworkRequest;
+use App\Http\Requests\UpdateNetworkRequest;
 use App\Network;
 use App\Store;
 use Illuminate\Http\Request;
@@ -97,7 +98,7 @@ class NetworkController extends Controller
      * @param  \App\Network  $network
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Network $network)
+    public function update(UpdateNetworkRequest $request, Network $network)
     {
         $network->fill($request->all());
         

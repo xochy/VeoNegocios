@@ -17,6 +17,7 @@ use App\Comment;
 use App\Network;
 use App\Product;
 use App\Store;
+use App\User;
 
 Route::get('/', function () {
     return view('welcome');
@@ -164,3 +165,12 @@ Route::get('/comments/{comment}/confirmAction', 'CommentController@confirmAction
 Route::get('/cancelActionComment/{comment}', function (Comment $comment) {
     return redirect()->route('stores.show', $comment->store)->with('statusCancel', 'Acción cancelada');
 })->name('comments.cancelAction');
+
+//?Rutas para Usuarios
+Route::resource('users', 'UserController');
+
+Route::get('/users/{user}/confirmAction', 'UserController@confirmAction')->name('users.confirmAction');
+
+Route::get('/cancelActionUser', function () {
+    return redirect()->route('users.index')->with('statusCancel', 'Acción cancelada');
+})->name('users.cancelAction');

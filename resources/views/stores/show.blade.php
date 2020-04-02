@@ -82,7 +82,8 @@
                             <h6 class="h6 pb-1"><i class="fas fa-cash-register"></i> {{$store->products->count()}} productos/servicios que ofrece este negocio</h6>
                         </a>
                     </div>
-                    @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                    @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+                        (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))                   
                         <div class="card-footer">
                             <small class="text-muted">Agregado el {{$store->created_at}} </small><br>
                             <small class="text-muted">Última modificación: {{$store->updated_at}} </small><br><br>
@@ -97,7 +98,8 @@
                     <hr class="bg-dark mb-4 w-25">
 
                     @if ($store->networks()->count() < 4)
-                        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                        @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+                            (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))
                             <a class="btn btn-outline-success btn-sm" style="margin-bottom: 10px;" href="{{ route('networks.createFromStore', $store->slug) }}"><i class="far fa-plus-square"></i> Agregar nuevo contacto</a>
                         @endif
                     @endif
@@ -110,7 +112,8 @@
                     <hr class="bg-dark mb-4 w-25">
 
                     @if ($store->addresses()->count() < 3)
-                        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                        @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+                            (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))
                             <a class="btn btn-outline-success btn-sm" style="margin-bottom: 10px;" href="{{ route('addresses.createFromStore', $store->slug) }}"><i class="far fa-plus-square"></i> Agregar nueva dirección</a>
                         @endif
                     @endif
@@ -124,8 +127,12 @@
                 @include('comments.list')
                 @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'viewer']))
                     <a class="btn btn-outline-success btn-sm" style="margin: 10px 0 10px 0; width: 100%;" href="{{ route('comments.createFromStore', $store->slug) }}"><i class="far fa-plus-square"></i> Agregar comentario</a>
+                @elseif(Auth::user() != null && Auth::user()->authorizeRolesShow(['collector', 'costumer']))
+                    <a class="btn btn-warning btn-sm" style="margin: 10px 0 10px 0; width: 100%;" href="#">
+                    <i class="far fa-times-circle"></i> Este tipo de usuario no puede dejar comentarios</a>
                 @else
-                    <a class="btn btn-warning btn-sm" style="margin: 10px 0 10px 0; width: 100%;" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Ingresa con tu usuario para dejar un comentario</a>
+                    <a class="btn btn-warning btn-sm" style="margin: 10px 0 10px 0; width: 100%;" href="{{ route('login') }}">
+                    <i class="fas fa-sign-in-alt"></i> Ingresa con tu usuario para dejar un comentario</a>
                 @endif
             </div>
         </div>
@@ -133,7 +140,8 @@
             <div class="col-md-12">
                 <h3 class="display-5 text-center"> Productos/Servicios </h3>
                     <hr class="bg-dark mb-4 w-25">
-                    @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector', 'costumer']))
+                    @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+                        (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))
                         <a class="btn btn-outline-success btn-sm" style="margin-bottom: 10px;" href="{{ route('products.createFromStore', $store->slug) }}"><i class="far fa-plus-square"></i> Agregar nuevo producto</a>
                     @endif
                     @include('products.list')

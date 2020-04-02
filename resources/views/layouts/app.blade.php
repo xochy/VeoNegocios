@@ -50,6 +50,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('stores.index') }}">Negocios</a>
                         </li>
+                        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector']))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users.index') }}">Gestión de Usuarios</a>
+                            </li>
+                        @endif
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('stores.showStoreCostumer', Auth::user()) }}">Mi Negocio</a>
                         </li> --}}

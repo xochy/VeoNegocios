@@ -54,7 +54,6 @@
                 padding: 10px 25px;
                 font-size: 13px;
                 font-weight: 600;
-                letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
             }
@@ -67,27 +66,6 @@
                 background: #42a4f5;
                 color:#fff;
                 text-align: center;
-            }
-
-            .blinker{
-			    animation: blinker 1.5s linear infinite;
-            }
-
-            @keyframes blinker {
-                50% {
-                    opacity: 0;
-                }
-            }
-
-            .home-main button{
-                background: #fff;
-                color: #5812c5;
-                border-radius: 0;
-                font-weight: 700;
-                width: 16%;
-                height: 50px;
-                top: 4%;
-                margin-top: 3%;
             }
         </style>
     </head>
@@ -114,10 +92,10 @@
 
                 <div class="links">
                     @guest
-                        <a href="{{ url('/home') }}">Inicio</a>
+                        <a class="m-5" href="{{ url('/home') }}">Inicio</a>
                     @endguest
-                    <a href="{{ route('categories.index') }}">Categorías</a>
-                    <a href="{{ route('stores.index') }}">Negocios</a>
+                    <a class="m-5" href="{{ route('categories.index') }}">Categorías</a>
+                    <a class="m-5" href="{{ route('stores.index') }}">Negocios</a>
                 </div>
             </div>
         </div>

@@ -9,8 +9,8 @@
                 <div class="card-block p-3">
                     <h5 class="card-title">{{$product->name}}</h5>
                     <p class="card-text">{{$product->description}}</p>
-                    <h2>{{$product->price}}</h2>
-                    <a href="#" class="btn btn-primary mb-2">Ver más...</a>
+                    @if($product->price != '$0.00') <h2>{{$product->price}}</h2> @endif                    
+                    {{-- <a href="#" class="btn btn-primary mb-2">Ver más...</a> --}}
                 </div>
                 @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
                     (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))

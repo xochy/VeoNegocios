@@ -110,6 +110,18 @@ hr {
     object-fit: cover;
 }
 
+.coverImagePublicity {
+    width: 540px;
+    height: 460px;
+    object-fit: cover;
+}
+
+.coverImageMiniPublicity {
+    width: 418px;
+    height: 335px;
+    object-fit: cover;
+}
+
 .panel-transparent {
     background: rgba(54, 58, 64, 0.3) !important;
 }

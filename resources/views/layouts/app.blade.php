@@ -48,30 +48,28 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('categories.index') }}">Categorías</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('stores.index') }}">Negocios</a>
-                        </li>
-                        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector']))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('users.index') }}">Gestión de Usuarios</a>
-                            </li>
-                        @endif
-                        {{-- <li class="nav-item">
-                            <a class="nav-link" href="{{ route('stores.showStoreCostumer', Auth::user()) }}">Mi Negocio</a>
-                        </li> --}}
-                        {{-- <li class="nav-item dropdown">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                Dropdown
+                                Negocios
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Categorías</a>
-                                <a class="dropdown-item" href="#">Negocios</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" href="{{ route('stores.loadFromCity', 'an') }}">Antúnez</a>
+                                <a class="dropdown-item" href="{{ route('stores.loadFromCity', 'ap') }}">Apatzingán</a>
                             </div>
-                        </li> --}}
-                    
+                        </li>
+                        @if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector']))
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                Administración
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('users.index') }}">Usuarios</a>
+                                <a class="dropdown-item" href="{{ route('cities.index') }}">Localidades</a>
+                            </div>
+                        </li>
+                        @endif
                     </ul>                  
 
                     <!-- Right Side Of Navbar -->

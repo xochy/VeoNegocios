@@ -29,7 +29,7 @@
                             </div>
                         @else
                         <div class="container">
-                            <h4>{{$network->description}}</h4>
+                            <h4><a href="tel:+{{$network->description}}">{{$network->description}}</a></h4>
                         </div>
                         @endif
                         @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 

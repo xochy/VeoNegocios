@@ -81,6 +81,7 @@
         </div>
     </div>
 </div>
-<h3 style="margin-bottom: -35px;">Lista de Negocios</h3>
+<h3 class="display-5 text-center"> Negocios </h3>
+<hr class="bg-dark mb-4 w-25">
 @include('stores.list', ['stores' => $category->stores->where('activated', true)])
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\City;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\UpdateStoreRequest;
 use App\Store;
@@ -31,8 +32,28 @@ class StoreController extends Controller
     public function index()
     {
         //$stores = Store::paginate(15);
-        $stores = Store::all();
+        $city = City::where('slug', 'an')->first();
+
+        //$stores = Store::where('city_id', $city->id);
+
+        $stores = Store
+            ::join('addresses', 'stores.id', '=', 'addresses.store_id')->where('addresses.city_id', '=', $city->id)
+            ->select('stores.*')
+            ->get();
+        
         return view('stores.index', compact('stores'));
+    }
+
+    public function loadFromCity($citySlug)
+    {
+        $city = City::where('slug', $citySlug)->first();
+        
+        $stores = Store
+            ::join('addresses', 'stores.id', '=', 'addresses.store_id')->where('addresses.city_id', '=', $city->id)
+            ->select('stores.*')
+            ->get();
+        
+        return view('stores.index', compact('stores', 'city'));
     }
 
     /**

@@ -94,8 +94,10 @@
                     @guest
                         <a class="m-5" href="{{ url('/home') }}">Inicio</a>
                     @endguest
-                    <a class="m-5" href="{{ route('categories.index') }}">Categorías</a>
-                    <a class="m-5" href="{{ route('stores.index') }}">Negocios</a>
+                    {{-- <a class="m-5" href="{{ route('categories.index') }}">Categorías</a>
+                    <a class="m-5" href="{{ route('stores.index') }}">Negocios</a> --}}
+                    <a class="m-5" href="{{ route('stores.loadFromCity', 'an') }}">Antúnez</a>
+                    <a class="m-5" href="{{ route('stores.loadFromCity', 'ap') }}">Apatzingán</a>
                 </div>
             </div>
         </div>

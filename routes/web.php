@@ -13,6 +13,7 @@
 
 use App\Address;
 use App\Category;
+use App\City;
 use App\Comment;
 use App\Network;
 use App\Product;
@@ -36,6 +37,28 @@ Route::get('/cancelActionCategory/{category}', function (Category $category) {
 })->name('categories.cancelAction');
 
 Route::get('/categories/{category}/confirmAction', 'CategoryController@confirmAction')->name('categories.confirmAction');
+
+//?Rutas para países
+
+Route::resource('cities', 'CityController');
+
+Route::get('/storedCity/{city}', function (City $city) {
+    return redirect()->route('cities.index', $city)->with('statusSuccess', 'Localidad agregada correctamente');
+})->name('cities.stored');
+
+Route::get('/updatedCity/{city}', function (City $city) {
+    return redirect()->route('cities.index', $city)->with('statusSuccess', 'Localidad actualizado correctamente');
+})->name('cities.updated');
+
+Route::get('/deletedCity', function () {
+    return redirect()->route('cities.index')->with('statusSuccess', 'Localidad eliminada correctamente');
+})->name('cities.deleted');
+
+Route::get('/cancelActionCity/{city}', function (City $city) {
+    return redirect()->route('cities.index', $city)->with('statusCancel', 'Acción cancelada');
+})->name('cities.cancelAction');
+
+Route::get('/cities/{city}/confirmAction', 'CityController@confirmAction')->name('cities.confirmAction');
 
 //?Rutas para Stores
 
@@ -62,6 +85,8 @@ Route::get('/stores/{store}/confirmAction', 'StoreController@confirmAction')->na
 Route::get('/cancelActionStore/{store}', function (Store $store) {
     return redirect()->route('stores.show', $store)->with('statusCancel', 'Acción cancelada');
 })->name('stores.cancelAction');
+
+Route::get('/loadFromCity/{citySlug}', 'StoreController@loadFromCity')->name('stores.loadFromCity');
 
 //!Rutas para los usuarios costumer
 Route::get('/stores/{user}/showStoreCostumer', 'StoreController@showStoreCostumer')->name('stores.showStoreCostumer');

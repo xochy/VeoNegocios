@@ -1,6 +1,6 @@
 <div class="row" id="accordionStore">     
     @foreach ($stores as $store)
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card text-center h-100 d-flex flex-column justify-content-between">
                 <div class="card-img">
                     <a href="/stores/{{ $store->slug }}">

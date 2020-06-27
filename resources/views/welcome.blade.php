@@ -91,9 +91,9 @@
                 </div>
 
                 <div class="links">
-                    @guest
+                    {{-- @guest
                         <a class="m-5" href="{{ url('/home') }}">Inicio</a>
-                    @endguest
+                    @endguest --}}
                     {{-- <a class="m-5" href="{{ route('categories.index') }}">Categorías</a>
                     <a class="m-5" href="{{ route('stores.index') }}">Negocios</a> --}}
                     <a class="m-5" href="{{ route('stores.loadFromCity', 'an') }}">Antúnez</a>

@@ -37,16 +37,16 @@
                     <div class="carousel-inner">
 
                     @foreach ($category->images as $image)
-                        <div class="carousel-item 
+                        <div class="carousel-item
                         @if ($loop->first)
                             active">
                         @else
                         ">
-                        @endif <img src="{{$public_dir_images . $image->url}}" class="d-block w-100" alt="...">
+                        @endif <img src="/storage/{{ $image->url }}" class="d-block w-100" alt="...">
                         </div>
                     @endforeach
 
-                    </div>                    
+                    </div>
                     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
@@ -68,12 +68,12 @@
 
             <p class="font-weight-normal">{{$category->description}}</p>
             {{-- <p class="font-weight-normal">by <a><strong>Carine Fox</strong></a>, 19/08/2016</p> --}}
-            @if (Auth::user() != null && Auth::user()->authorizeRolesShow('costumer'))                
+            @if (Auth::user() != null && Auth::user()->authorizeRolesShow('costumer'))
                 @if (Auth::user()->stores()->count() == 0)
                     <a  class="btn btn-primary" href="{{ route('stores.createFromCategory', $category->slug) }}"><i class="far fa-plus-square"></i> Crear nuevo negocio</a>
                 @endif
             @endif
-            
+
             @if (Auth::user() != null && Auth::user()->authorizeRolesShow('administrator'))
                 <a class="btn btn-warning" href="{{ route('categories.edit', $category->slug )}}" ><i class="far fa-edit"></i> Editar categoría</a>
                 <a class="btn btn-danger" href="{{ route('categories.confirmAction', $category->slug )}}"><i class="far fa-trash-alt"></i> Eliminar categoría</a>
@@ -83,5 +83,5 @@
 </div>
 <h3 class="display-5 text-center"> Negocios </h3>
 <hr class="bg-dark mb-4 w-25">
-@include('stores.list', ['stores' => $category->stores->where('activated', true)])
+@include('stores.list', ['stores' => $category->stores()->where('activated', true)->paginate()])
 @endsection

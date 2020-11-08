@@ -18,6 +18,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        \App\Events\ImageSaved::class => [
+            \App\Listeners\OptimizeImage::class
+        ]
+
     ];
 
     /**

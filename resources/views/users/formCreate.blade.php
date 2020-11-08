@@ -1,4 +1,5 @@
 <div class="form-group row">
+
     <label for="name" class="col-md-4 col-form-label text-md-right">Tipo de Usuario</label>
     <div class="col-md-6">
         <select name="roles" id="rol" class="form-control">
@@ -26,7 +27,15 @@
         @enderror
     </div>
 </div>
-
+ @isset($prospecto)
+<div class="form-group row">
+    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Celular') }}</label>
+    
+    <div class="col-md-6">
+        <input id="cel" type="number" class="form-control" name="cel" required>
+    </div>
+</div>
+@endisset
 <div class="form-group row">
     <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electrónico') }}</label>
 

@@ -1,18 +1,20 @@
 <div class="row">
-    @forelse ($store->products as $product)
+    @forelse ($products as $product)
         <div class="col-md-4 mt-3">
             <div class="card h-100 d-flex flex-column justify-content-between">
                 <div class="card-img">
-                    <img class="card-img-top" src="{{$public_dir_images . $product->images->first()->url}}" alt="Card image cap">
+                    <img class="card-img-top" src="/storage/{{$product->Images->first()->url}}" alt="Card image cap">
                     @if($product->offered == 1) <span><h4>Oferta</h4></span> @endif
-                </div>             
-                <div class="card-block p-3">
+                </div>
+                <div class="card-block p-3" >
                     <h5 class="card-title">{{$product->name}}</h5>
+                    <div>
                     <p class="card-text">{{$product->description}}</p>
-                    @if($product->price != '$0.00') <h2>{{$product->price}}</h2> @endif                    
+                    </div>
+                    @if($product->price != '$0.00') <h2>{{$product->price}}</h2> @endif
                     {{-- <a href="#" class="btn btn-primary mb-2">Ver más...</a> --}}
                 </div>
-                @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+                @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) ||
                     (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))
                     <div class="card-footer">
                         <small class="text-muted">Agregado el {{$product->created_at}} </small><br>
@@ -25,12 +27,16 @@
         </div>
     @empty
         <div class="container">
-            <h6>No existen productos 
-                @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) || 
+            <h6>No existen productos
+                @if (Auth::user() != null && (Auth::user()->authorizeRolesShow(['administrator', 'collector']) ||
                     (Auth::user()->roles()->first()->name == 'costumer' && Auth::user()->id == $store->user_id)))
                     <span class="badge badge-warning">Puede hacer clic en el botón de arriba para agregar un nuevo producto</span>
                 @endif
             </h6>
         </div>
     @endforelse
+</div>
+
+<div class="mt-3">
+    {{$products->links()}}
 </div>

@@ -24,7 +24,7 @@
             </div>
             <input type="text" id="price" name="price" class="form-control @error('price') is-invalid @enderror" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="$100.00"
             value="@if(isset($product->price)){{$product->price}}@else{{ old('price') }}@endif">
-        
+
             @error('price')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -65,29 +65,29 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="imageGroup1"><i class="fas fa-file-image"></i></span>
         </div>
-        <div class="custom-file">                
+        <div class="custom-file">
             <input type="file" class="custom-file-input @error('image') is-invalid @enderror" id="image" lang="es" name="image" aria-describedby="imageGroup1">
             <label class="custom-file-label" for="image1">Seleccionar Archivo</label>
 
             @error('image')
                 <span class="invalid-tooltip" role="alert">{{ $message }}</span>
             @enderror
-        </div>    
-    </div>  
+        </div>
+    </div>
 </div>
 <div class="form-group">
     <div class="col text-center">
         <figure class="figure">
-            <img class="img-fluid img-thumbnail" id="previewImage" style="width: 350px; height: 250px; object-fit:cover;"
-            @isset($product->images) src="{{$public_dir_images . $product->images->first()->url}}" @endisset />
+            <img class="img-fluid img-thumbnail" id="previewImage" style="width: 347px; height: 347px; object-fit:cover;"
+            @isset($product->images) src="/storage/{{$product->images->first()->url}}" @endisset />
             <figcaption class="figure-caption">Vista previa de imagen de producto o servicio</figcaption>
         </figure>
     </div>
 </div>
 <div class="form-group">
     <div class="form-group col-md-4">
-        <input type="checkbox" name="offered" class="form-check-input" id="exampleCheck1" @if(isset($product->offered))@if($product->offered == 1) checked @endif @endif>        
-        <label class="form-check-label" for="exampleCheck1"><h6> ¿Producto / Servicio en oferta? 
+        <input type="checkbox" name="offered" class="form-check-input" id="exampleCheck1" @if(isset($product->offered))@if($product->offered == 1) checked @endif @endif>
+        <label class="form-check-label" for="exampleCheck1"><h6> ¿Producto / Servicio en oferta?
             <span class="badge badge-warning">Deberá activar la casilla unicamente si su producto o servicio se encuentra en un estado de oferta</span></h6></label>
     </div>
 </div>
@@ -103,11 +103,11 @@
     function readURL(input, frame) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-        
+
             reader.onload = function(e) {
                 $(frame).attr('src', e.target.result);
             }
-    
+
             reader.readAsDataURL(input.files[0]);
         }
     }
@@ -116,7 +116,7 @@ $("input[data-type='currency']").on({
     keyup: function() {
       formatCurrency($(this));
     },
-    blur: function() { 
+    blur: function() {
       formatCurrency($(this), "blur");
     }
 });
@@ -131,19 +131,19 @@ function formatNumber(n) {
 function formatCurrency(input, blur) {
   // appends $ to value, validates decimal side
   // and puts cursor back in right position.
-  
+
   // get input value
   var input_val = input.val();
-  
+
   // don't validate empty input
   if (input_val === "") { return; }
-  
+
   // original length
   var original_len = input_val.length;
 
-  // initial caret position 
+  // initial caret position
   var caret_pos = input.prop("selectionStart");
-    
+
   // check for decimal
   if (input_val.indexOf(".") >= 0) {
 
@@ -161,12 +161,12 @@ function formatCurrency(input, blur) {
 
     // validate right side
     right_side = formatNumber(right_side);
-    
+
     // On blur make sure 2 numbers after decimal
     if (blur === "blur") {
       right_side += "00";
     }
-    
+
     // Limit decimal to only 2 digits
     right_side = right_side.substring(0, 2);
 
@@ -179,13 +179,13 @@ function formatCurrency(input, blur) {
     // remove all non-digits
     input_val = formatNumber(input_val);
     input_val = "$" + input_val;
-    
+
     // final formatting
     if (blur === "blur") {
       input_val += ".00";
     }
   }
-  
+
   // send updated string to input
   input.val(input_val);
 

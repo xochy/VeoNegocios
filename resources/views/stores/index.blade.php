@@ -8,7 +8,7 @@
             <!--SECTION START-->
             <section class="row">
                 <!--Start slider news-->
-                <div class="col-12 col-md-6 pb-0 pb-md-3 pt-2 pr-md-1">
+                <div class="col-12 col-md-12 pb-0 pb-md-3 pt-2 pr-md-1">
                     <div id="featured" class="carousel slide carousel" data-ride="carousel">
                         <!--dots navigate-->
                         <ol class="carousel-indicators top-indicator">
@@ -16,7 +16,7 @@
                                 <li data-target="#featured" data-slide-to="{{$loop->index}}" @if ($loop->first) class="active" @endif></li>
                             @endforeach
                         </ol>
-                        
+
                         <!--carousel inner-->
                         <div class="carousel-inner">
 
@@ -29,7 +29,7 @@
                                             <div class="ratio_left-cover-1 image-wrapper">
                                                 <a href="#">
                                                     <img class="img-fluid w-100"
-                                                        src="{{$public_dir_images . $image->url}}"
+                                                        src="/storage/{{$image->url}}"
                                                         alt="Bootstrap news template">
                                                 </a>
                                             </div>
@@ -45,13 +45,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>   
-                                <!--end item slider-->                             
+                                </div>
+                                <!--end item slider-->
                             @endforeach
                         </div>
                         <!--end carousel inner-->
                     </div>
-                    
+
                     <!--navigation-->
                     <a class="carousel-control-prev" href="#featured" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -63,13 +63,13 @@
                     </a>
                 </div>
                 <!--End slider news-->
-                
+
                 <!--Start box news-->
                 <div class="col-12 col-md-6 pt-2 pl-md-1 mb-3 mb-lg-4">
                     <div class="row">
                         <!--news box-->
                         @foreach ($city->images->where('position', '>', 4) as $image)
-                        <div class="col-6 pb-1 
+                        <div class="col-6 pb-1
                             @switch($loop->iteration)
                                 @case(1)
                                     pr-1 pt-0
@@ -85,14 +85,14 @@
                                     @break
                                 @default
                             @endswitch
-                            ">                        
+                            ">
                             <div class="card border-0 rounded-0 text-white overflow zoom">
                                 <div class="position-relative">
                                     <!--thumbnail img-->
                                     <div class="ratio_right-cover-2 image-wrapper">
                                         <a href="#">
                                             <img class="img-fluid"
-                                                src="{{$public_dir_images . $image->url}}"
+                                                src="/storage/{{$image->url}}"
                                                 alt="simple blog template bootstrap">
                                         </a>
                                     </div>
@@ -115,7 +115,7 @@
         </div>
     </div>
     @endif
-    @include('stores.list', ['stores' => $stores->where('activated', true)])
+    @include('stores.list', ['stores' => $stores])
 @endsection
 
 <style>

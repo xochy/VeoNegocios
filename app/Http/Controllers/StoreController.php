@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\City;
+use App\Events\ImageSaved;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\UpdateStoreRequest;
 use App\Store;
-use Intervention\Image\Facades\Image as ImageResize;
+use Illuminate\Support\Facades\Storage;
 use App\Image;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StoreController extends Controller
 {
@@ -23,7 +25,7 @@ class StoreController extends Controller
     {
         $this->middleware('auth')->only(['create', 'createFromCategory', 'edit']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -40,19 +42,25 @@ class StoreController extends Controller
             ::join('addresses', 'stores.id', '=', 'addresses.store_id')->where('addresses.city_id', '=', $city->id)
             ->select('stores.*')
             ->get();
-        
+
         return view('stores.index', compact('stores'));
     }
 
     public function loadFromCity($citySlug)
     {
         $city = City::where('slug', $citySlug)->first();
-        
+
         $stores = Store
-            ::join('addresses', 'stores.id', '=', 'addresses.store_id')->where('addresses.city_id', '=', $city->id)
-            ->select('stores.*')
-            ->get();
-        
+        ::join('addresses', function($join) use ($city){
+            $join->on('stores.id', '=', 'addresses.store_id')
+
+                    ->where('addresses.city_id', '=', $city->id)->distinct('store_id');
+        })
+        ->select('stores.*')
+        ->distinct('stores.id')
+        ->paginate(16);
+
+        //dd($stores);
         return view('stores.index', compact('stores', 'city'));
     }
 
@@ -86,7 +94,7 @@ class StoreController extends Controller
         $store->slug        = 'store'.time();
 
         $store->category_id = $category->id;
-        $store->user_id     = auth()->user()->id;         
+        $store->user_id     = auth()->user()->id;
 
         $store->save();
 
@@ -94,25 +102,25 @@ class StoreController extends Controller
         {
             $imageStore = $this->storeImage($request->file('profileImage'), 0, 500, 300);
             $store->images()->attach($imageStore);
-        } 
+        }
 
         if($request->hasFile('coverImage1'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage1'), 1, 800, 250, 
+            $imageStore = $this->storeImage($request->file('coverImage1'), 1, 800, 250,
             $request->tittleCoverImage1, $request->descriptionCoverImage1);
             $store->images()->attach($imageStore);
         }
 
         if($request->hasFile('coverImage2'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage2'), 2, 800, 250, 
+            $imageStore = $this->storeImage($request->file('coverImage2'), 2, 800, 250,
             $request->tittleCoverImage2, $request->descriptionCoverImage2);
             $store->images()->attach($imageStore);
         }
 
         if($request->hasFile('coverImage3'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage3'), 3, 800, 250, 
+            $imageStore = $this->storeImage($request->file('coverImage3'), 3, 800, 250,
             $request->tittleCoverImage3, $request->descriptionCoverImage3);
             $store->images()->attach($imageStore);
         }
@@ -128,9 +136,8 @@ class StoreController extends Controller
      */
     public function storeImage($file, $position, $width, $height, $tittle = null, $description = null)
     {
-        $url = time().$position.$file->getClientOriginalName();
-        $file->move(public_path().'/images/', $url);      
-        
+        $url = $file->store('images');
+
         $imageStore              = new Image();
         $imageStore->url         = $url;
         $imageStore->position    = $position;
@@ -138,20 +145,9 @@ class StoreController extends Controller
         $imageStore->description = $description;
         $imageStore->save();
 
-        $this->resizeImage($url, $width, $height);
-        
+        ImageSaved::dispatch($imageStore, $width);
+
         return $imageStore;
-    }
-    
-    /**
-     * Store a newly Image from category.
-     *
-     * @param  $url
-     */
-    private function resizeImage($url, $width, $height)
-    {
-        $imageResize = ImageResize::make(public_path() . '/images/' . $url)->fit($width, $height);
-        $imageResize->save(null, 60, 'jpg');
     }
 
     /**
@@ -161,13 +157,13 @@ class StoreController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showStoreCostumer(User $user)
-    {        
+    {
         $store = Store::where('user_id', $user->id)->first();
-        
+
         dd($store);
         //return view('stores.show', compact('store'));
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -204,7 +200,7 @@ class StoreController extends Controller
         if($request->hasFile('profileImage'))
         {
             $image = $store->images->where('position', 0)->first();
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
             $store->images()->detach($image);
             $image->delete();
 
@@ -215,11 +211,11 @@ class StoreController extends Controller
         if($request->hasFile('coverImage1'))
         {
             $image = $store->images->where('position', 1)->first();
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
             $store->images()->detach($image);
             $image->delete();
 
-            $imageStore = $this->storeImage($request->file('coverImage1'), 1, 800, 250, 
+            $imageStore = $this->storeImage($request->file('coverImage1'), 1, 800, 250,
             $request->tittleCoverImage1, $request->descriptionCoverImage1);
             $store->images()->attach($imageStore);
         }
@@ -227,11 +223,11 @@ class StoreController extends Controller
         if($request->hasFile('coverImage2'))
         {
             $image = $store->images->where('position', 2)->first();
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
             $store->images()->detach($image);
             $image->delete();
 
-            $imageStore = $this->storeImage($request->file('coverImage2'), 2, 800, 250, 
+            $imageStore = $this->storeImage($request->file('coverImage2'), 2, 800, 250,
             $request->tittleCoverImage2, $request->descriptionCoverImage2);
             $store->images()->attach($imageStore);
         }
@@ -239,11 +235,11 @@ class StoreController extends Controller
         if($request->hasFile('coverImage3'))
         {
             $image = $store->images->where('position', 3)->first();
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
             $store->images()->detach($image);
             $image->delete();
 
-            $imageStore = $this->storeImage($request->file('coverImage3'), 3, 800, 250, 
+            $imageStore = $this->storeImage($request->file('coverImage3'), 3, 800, 250,
             $request->tittleCoverImage3, $request->descriptionCoverImage3);
             $store->images()->attach($imageStore);
         }
@@ -257,7 +253,7 @@ class StoreController extends Controller
 
     private function updateImageInformation(Request $request, Store $store)
     {
-        if(\File::exists(public_path() . '/images/' . $store->images->where('position', 1)->first()->url)){
+        if(Storage::exists($store->images->where('position', 1)->first()->url)){
 
             $image = $store->images->where('position', 1)->first();
             $image->tittle = $request->tittleCoverImage1;
@@ -266,7 +262,7 @@ class StoreController extends Controller
         }
 
         if(isset($store->images->where('position', 2)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $store->images->where('position', 2)->first()->url)){
+            if(Storage::exists($store->images->where('position', 2)->first()->url)) {
 
                 $image = $store->images->where('position', 2)->first();
                 $image->tittle = $request->tittleCoverImage2;
@@ -276,29 +272,13 @@ class StoreController extends Controller
         }
 
         if(isset($store->images->where('position', 3)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $store->images->where('position', 3)->first()->url)){
+            if(Storage::exists($store->images->where('position', 3)->first()->url)) {
 
                 $image = $store->images->where('position', 3)->first();
                 $image->tittle = $request->tittleCoverImage3;
                 $image->description = $request->descriptionCoverImage3;
                 $image->save();
             }
-        }        
-    }
-
-     /**
-     * Store a newly Image from category.
-     *
-     * @param  $url
-     */
-    private function deleteImage($url)
-    {
-        if(\File::exists(public_path() . '/images/' . $url)){
-
-            \File::delete(public_path() . '/images/' . $url);
-        }else
-        {
-            dd($url);
         }
     }
 
@@ -311,7 +291,7 @@ class StoreController extends Controller
     public function destroy(Store $store)
     {
         foreach($store->images as $image){
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
         }
 
         $store->delete();

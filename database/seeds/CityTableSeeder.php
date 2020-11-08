@@ -22,9 +22,9 @@ class CityTableSeeder extends Seeder
         $city->slug = 'an';
         $city->save();
 
-        $city = new City();
-        $city->name = 'Nueva Italia';
-        $city->slug = 'ni';
-        $city->save();
+        // $city = new City();
+        // $city->name = 'Nueva Italia';
+        // $city->slug = 'ni';
+        // $city->save();
     }
 }

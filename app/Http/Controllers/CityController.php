@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\City;
+use App\Events\ImageSaved;
 use App\Http\Requests\StoreCityRequest;
 use App\Http\Requests\UpdateCityRequest;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image as ImageResize;
+use Illuminate\Support\Facades\Storage;
 use App\Image;
 
 class CityController extends Controller
@@ -43,61 +44,61 @@ class CityController extends Controller
         $city       = new City();
         $city->name = $request->name;
         $city->slug = 'city'.time();
-        
+
         $city->save();
 
         if($request->hasFile('coverImage1'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage1'), 1, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage1'), 1, 540, 460,
             $request->tittleCoverImage1, $request->descriptionCoverImage1);
             $city->images()->attach($imageStore);
         }
 
         if($request->hasFile('coverImage2'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage2'), 2, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage2'), 2, 540, 460,
             $request->tittleCoverImage2, $request->descriptionCoverImage2);
             $city->images()->attach($imageStore);
         }
 
         if($request->hasFile('coverImage3'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage3'), 3, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage3'), 3, 540, 460,
             $request->tittleCoverImage3, $request->descriptionCoverImage3);
             $city->images()->attach($imageStore);
         }
 
         if($request->hasFile('coverImage4'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage4'), 4, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage4'), 4, 540, 460,
             $request->tittleCoverImage4, $request->descriptionCoverImage4);
             $city->images()->attach($imageStore);
         }
-        
+
         if($request->hasFile('coverImage5'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage5'), 5, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage5'), 5, 540, 460,
             $request->tittleCoverImage5, $request->descriptionCoverImage5);
             $city->images()->attach($imageStore);
         }
 
         if($request->hasFile('coverImage6'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage6'), 6, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage6'), 6, 540, 460,
             $request->tittleCoverImage6, $request->descriptionCoverImage6);
             $city->images()->attach($imageStore);
         }
 
         if($request->hasFile('coverImage7'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage7'), 7, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage7'), 7, 540, 460,
             $request->tittleCoverImage7, $request->descriptionCoverImage7);
             $city->images()->attach($imageStore);
         }
 
         if($request->hasFile('coverImage8'))
         {
-            $imageStore = $this->storeImage($request->file('coverImage8'), 8, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage8'), 8, 540, 460,
             $request->tittleCoverImage8, $request->descriptionCoverImage8);
             $city->images()->attach($imageStore);
         }
@@ -113,9 +114,8 @@ class CityController extends Controller
      */
     public function storeImage($file, $position, $width, $height, $tittle = null, $description = null)
     {
-        $url = time().$position.'_publicidad_'.$file->getClientOriginalName();
-        $file->move(public_path().'/images/', $url);      
-        
+        $url = $file->store('images');
+
         $imageStore              = new Image();
         $imageStore->url         = $url;
         $imageStore->position    = $position;
@@ -123,22 +123,11 @@ class CityController extends Controller
         $imageStore->description = $description;
         $imageStore->save();
 
-        $this->resizeImage($url, $width, $height);
-        
+        ImageSaved::dispatch($imageStore, $width);
+
         return $imageStore;
     }
 
-    /**
-     * Store a newly Image from category.
-     *
-     * @param  $url
-     */
-    private function resizeImage($url, $width, $height)
-    {
-        $imageResize = ImageResize::make(public_path() . '/images/' . $url)->fit($width, $height);
-        $imageResize->save(null, 60, 'jpg');
-    }
-    
     /**
      * Display the specified resource.
      *
@@ -176,15 +165,15 @@ class CityController extends Controller
         if($request->hasFile('coverImage1'))
         {
             $image = $city->images->where('position', 1)->first();
-            
+
             if($image != null)
             {
-                $this->deleteImage($image->url);
+                Storage::delete($image->url);
                 $city->images()->detach($image);
                 $image->delete();
             }
 
-            $imageStore = $this->storeImage($request->file('coverImage1'), 1, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage1'), 1, 540, 460,
             $request->tittleCoverImage1, $request->descriptionCoverImage1);
             $city->images()->attach($imageStore);
         }
@@ -195,12 +184,12 @@ class CityController extends Controller
 
             if($image != null)
             {
-                $this->deleteImage($image->url);
+                Storage::delete($image->url);
                 $city->images()->detach($image);
                 $image->delete();
-            }       
+            }
 
-            $imageStore = $this->storeImage($request->file('coverImage2'), 2, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage2'), 2, 540, 460,
             $request->tittleCoverImage2, $request->descriptionCoverImage2);
             $city->images()->attach($imageStore);
         }
@@ -211,12 +200,12 @@ class CityController extends Controller
 
             if($image != null)
             {
-                $this->deleteImage($image->url);
+                Storage::delete($image->url);
                 $city->images()->detach($image);
                 $image->delete();
-            }            
+            }
 
-            $imageStore = $this->storeImage($request->file('coverImage3'), 3, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage3'), 3, 540, 460,
             $request->tittleCoverImage3, $request->descriptionCoverImage3);
             $city->images()->attach($imageStore);
         }
@@ -227,12 +216,12 @@ class CityController extends Controller
 
             if($image != null)
             {
-                $this->deleteImage($image->url);
+                Storage::delete($image->url);
                 $city->images()->detach($image);
                 $image->delete();
-            }            
+            }
 
-            $imageStore = $this->storeImage($request->file('coverImage4'), 4, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage4'), 4, 540, 460,
             $request->tittleCoverImage4, $request->descriptionCoverImage4);
             $city->images()->attach($imageStore);
         }
@@ -243,12 +232,12 @@ class CityController extends Controller
 
             if($image != null)
             {
-                $this->deleteImage($image->url);
+                Storage::delete($image->url);
                 $city->images()->detach($image);
                 $image->delete();
-            }            
+            }
 
-            $imageStore = $this->storeImage($request->file('coverImage5'), 5, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage5'), 5, 540, 460,
             $request->tittleCoverImage5, $request->descriptionCoverImage5);
             $city->images()->attach($imageStore);
         }
@@ -259,12 +248,12 @@ class CityController extends Controller
 
             if($image != null)
             {
-                $this->deleteImage($image->url);
+                Storage::delete($image->url);
                 $city->images()->detach($image);
                 $image->delete();
-            }            
+            }
 
-            $imageStore = $this->storeImage($request->file('coverImage6'), 6, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage6'), 6, 540, 460,
             $request->tittleCoverImage6, $request->descriptionCoverImage4);
             $city->images()->attach($imageStore);
         }
@@ -275,28 +264,28 @@ class CityController extends Controller
 
             if($image != null)
             {
-                $this->deleteImage($image->url);
+                Storage::delete($image->url);
                 $city->images()->detach($image);
                 $image->delete();
-            }            
+            }
 
-            $imageStore = $this->storeImage($request->file('coverImage7'), 7, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage7'), 7, 540, 460,
             $request->tittleCoverImage7, $request->descriptionCoverImage7);
             $city->images()->attach($imageStore);
         }
-        
+
         if($request->hasFile('coverImage8'))
         {
             $image = $city->images->where('position', 8)->first();
 
             if($image != null)
             {
-                $this->deleteImage($image->url);
+                Storage::delete($image->url);
                 $city->images()->detach($image);
                 $image->delete();
-            }            
+            }
 
-            $imageStore = $this->storeImage($request->file('coverImage8'), 8, 540, 460, 
+            $imageStore = $this->storeImage($request->file('coverImage8'), 8, 540, 460,
             $request->tittleCoverImage8, $request->descriptionCoverImage8);
             $city->images()->attach($imageStore);
         }
@@ -311,17 +300,17 @@ class CityController extends Controller
     private function updateImageInformation(Request $request, City $city)
     {
         if(isset($city->images->where('position', 2)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $city->images->where('position', 1)->first()->url)){
+            if(Storage::exists($city->images->where('position', 1)->first()->url)) {
 
                 $image = $city->images->where('position', 1)->first();
                 $image->tittle = $request->tittleCoverImage1;
                 $image->description = $request->descriptionCoverImage1;
                 $image->save();
             }
-        }        
+        }
 
         if(isset($city->images->where('position', 2)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $city->images->where('position', 2)->first()->url)){
+            if(Storage::exists($city->images->where('position', 2)->first()->url)) {
 
                 $image = $city->images->where('position', 2)->first();
                 $image->tittle = $request->tittleCoverImage2;
@@ -331,17 +320,17 @@ class CityController extends Controller
         }
 
         if(isset($city->images->where('position', 3)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $city->images->where('position', 3)->first()->url)){
+            if(Storage::exists($city->images->where('position', 3)->first()->url)) {
 
                 $image = $city->images->where('position', 3)->first();
                 $image->tittle = $request->tittleCoverImage3;
                 $image->description = $request->descriptionCoverImage3;
                 $image->save();
             }
-        }    
-        
+        }
+
         if(isset($city->images->where('position', 4)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $city->images->where('position', 4)->first()->url)){
+            if(Storage::exists($city->images->where('position', 4)->first()->url)){
 
                 $image = $city->images->where('position', 4)->first();
                 $image->tittle = $request->tittleCoverImage4;
@@ -351,59 +340,43 @@ class CityController extends Controller
         }
 
         if(isset($city->images->where('position', 5)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $city->images->where('position', 5)->first()->url)){
+            if(Storage::exists($city->images->where('position', 5)->first()->url)){
 
                 $image = $city->images->where('position', 5)->first();
                 $image->tittle = $request->tittleCoverImage5;
                 $image->description = $request->descriptionCoverImage5;
                 $image->save();
             }
-        }      
+        }
 
         if(isset($city->images->where('position', 6)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $city->images->where('position', 6)->first()->url)){
+            if(Storage::exists($city->images->where('position', 6)->first()->url)){
 
                 $image = $city->images->where('position', 6)->first();
                 $image->tittle = $request->tittleCoverImage6;
                 $image->description = $request->descriptionCoverImage6;
                 $image->save();
             }
-        }      
+        }
 
         if(isset($city->images->where('position', 7)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $city->images->where('position', 7)->first()->url)){
+            if(Storage::exists($city->images->where('position', 7)->first()->url)){
 
                 $image = $city->images->where('position', 7)->first();
                 $image->tittle = $request->tittleCoverImage7;
                 $image->description = $request->descriptionCoverImage7;
                 $image->save();
             }
-        }      
+        }
 
         if(isset($city->images->where('position', 8)->first()->url)){
-            if(\File::exists(public_path() . '/images/' . $city->images->where('position', 8)->first()->url)){
+            if(Storage::exists($city->images->where('position', 8)->first()->url)){
 
                 $image = $city->images->where('position', 8)->first();
                 $image->tittle = $request->tittleCoverImage8;
                 $image->description = $request->descriptionCoverImage8;
                 $image->save();
             }
-        }      
-    }
-
-     /**
-     * Store a newly Image from category.
-     *
-     * @param  $url
-     */
-    private function deleteImage($url)
-    {
-        if(\File::exists(public_path() . '/images/' . $url)){
-
-            \File::delete(public_path() . '/images/' . $url);
-        }else
-        {
-            dd($url);
         }
     }
 
@@ -416,7 +389,7 @@ class CityController extends Controller
     public function destroy(City $city)
     {
         $city->delete();
-        
+
         return redirect()->route('cities.deleted');
     }
 

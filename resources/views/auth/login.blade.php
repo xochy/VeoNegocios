@@ -52,18 +52,33 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                           <div class="col-xs-12 col-sm-12 col-md-12"> 
+                            <div style="margin-left: auto; margin-right: 0px;">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Ingresar') }}
                                 </button>
+                                @if (Route::has('login'))
+                                    @auth
+                                    @else
+                                        @if (Route::has('register'))
+                                            <a class="btn btn-primary" href="{{ route('register') }}">Registro</a>
+                                        @endif
+                                    @endauth
+                               
+                            @endif
+                            </div>
+
+                          </div>      
+                        
 
                                 {{-- @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif --}}
-                            </div>
+                            
                         </div>
+
                     </form>
                 </div>
             </div>

@@ -43,18 +43,22 @@
                             class="pic-1"
                         @else
                             class="pic-2"
-                        @endif src="{{$public_dir_images . $image->url}}">
+                        @endif src="/storage/{{ $image->url }}">
                     @endforeach
                 </a>
                 <a class="add-to-cart" href="/categories/{{ $category->slug }}">Ver más...</a>
             </div>
             <div class="product-content">
-                <h3 class="title"><a href="#">{{ $category->name }}</a></h3>
+                <h3 class="title"><a href="/categories/{{ $category->slug }}">{{ $category->name }}</a></h3>
                 <span class="price">{{ $category->description }}</span>
             </div>
         </div>
     </div>
     @endforeach
+</div>
+
+<div class="mt-4">
+    {{ $categories->links("pagination::bootstrap-4") }}
 </div>
 
 @endsection

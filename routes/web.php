@@ -199,3 +199,7 @@ Route::get('/users/{user}/confirmAction', 'UserController@confirmAction')->name(
 Route::get('/cancelActionUser', function () {
     return redirect()->route('users.index')->with('statusCancel', 'Acción cancelada');
 })->name('users.cancelAction');
+
+
+//usuario o negocio prospecto
+Route::get('prospecto', 'Userprospecto@index');

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ImageSaved;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Product;
 use App\Store;
-use Intervention\Image\Facades\Image as ImageResize;
+use Illuminate\Support\Facades\Storage;
 use App\Image;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         $this->middleware('auth')->only(['createFromStore', 'edit']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -54,7 +54,7 @@ class ProductController extends Controller
         $product->name        = $request->name;
         $product->description = $request->description;
         $product->price       = $request->price;
-        
+
         if($request->offered == 'on'){
             $product->offered = true;
         }
@@ -67,9 +67,11 @@ class ProductController extends Controller
 
         if($request->hasFile('image'))
         {
+
             $imageProduct = $this->storeImage($request->file('image'), 1);
+
             $product->images()->attach($imageProduct);
-        }        
+        }
 
         return redirect()->route('products.stored', $store);
     }
@@ -82,28 +84,16 @@ class ProductController extends Controller
      */
     public function storeImage($file, $position)
     {
-        $url = time().$file->getClientOriginalName();
-        $file->move(public_path().'/images/', $url);      
-        
+        $url = $file->store('images');
+
         $imageCategory = new Image();
         $imageCategory->url = $url;
         $imageCategory->position = $position;
         $imageCategory->save();
 
-        $this->resizeImage($url);
-        
-        return $imageCategory;
-    }
+        ImageSaved::dispatch($imageCategory, 300);
 
-    /**
-     * Store a newly Image from category.
-     *
-     * @param  $url
-     */
-    private function resizeImage($url)
-    {
-        $imageResize = ImageResize::make(public_path() . '/images/' . $url)->fit(350, 250);
-        $imageResize->save(null, 60, 'jpg');
+        return $imageCategory;
     }
 
     /**
@@ -150,7 +140,7 @@ class ProductController extends Controller
         if($request->hasFile('image'))
         {
             $image = $product->images->where('position', 1)->first();
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
             $product->images()->detach($image);
             $image->delete();
 
@@ -164,22 +154,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly Image from category.
-     *
-     * @param  $url
-     */
-    private function deleteImage($url)
-    {
-        if(\File::exists(public_path() . '/images/' . $url)){
-
-            \File::delete(public_path() . '/images/' . $url);
-        }else
-        {
-            dd($url);
-        }
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Product  $product
@@ -188,7 +162,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         foreach($product->images as $image){
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
         }
 
         $product->delete();

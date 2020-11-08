@@ -48,7 +48,8 @@
     <hr class="my-4">
     <p>Si eres dueño de un establecimiento y te gustaría llevar el control de tus productos en las principales categorías de negocios, estás en el lugar correcto.</p>
     <a class="btn btn-primary btn-lg" href="{{ route('categories.index') }}" role="button">Ver categorías</a>
-    <a class="btn btn-success btn-lg" href="{{ route('stores.index') }}" role="button">Ver negocios</a>
+    <a class="btn btn-success btn-lg" href="{{ route('stores.loadFromCity', 'an') }}" role="button">Antúnez</a>
+    <a class="btn btn-success btn-lg" href="{{ route('stores.loadFromCity', 'ap') }}" role="button">Apatzingán</a>
 </div>
 
 <hr class="featurette-divider">

@@ -4,7 +4,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="imageGroup1"><i class="fas fa-object-group"></i></span>
         </div>
-        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" 
+        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
         value="@if(isset($category->name)){{$category->name}}@else{{ old('name') }}@endif" autofocus>
 
         @error('name')
@@ -12,8 +12,7 @@
                 <strong>{{ $message }}</strong>
             </span>
         @enderror
-
-    </div>   
+    </div>
 </div>
 <div class="form-group">
     <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Descripción</label>
@@ -21,7 +20,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="imageGroup1"><i class="fas fa-tag"></i></span>
         </div>
-        <input type="text" name="description" class="form-control @error('description') is-invalid @enderror" 
+        <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
         value="@if(isset($category->description)){{$category->description}}@else{{ old('description') }}@endif">
 
         @error('description')
@@ -29,8 +28,7 @@
                 <strong>{{ $message }}</strong>
             </span>
         @enderror
-
-    </div>    
+    </div>
 </div>
 @isset ($category->images)
 <div class="form-group">
@@ -43,22 +41,22 @@
 </div>
 @endisset
 <div class="form-row">
-    <div class="form-group col-md-6">    
+    <div class="form-group col-md-6">
         <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Imagen 1</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="imageGroup1"><i class="fas fa-file-image"></i></span>
             </div>
-            <div class="custom-file">                
-                <input type="file" class="custom-file-input @error('image1') is-invalid @enderror" id="image1" lang="es" name="image1" aria-describedby="imageGroup1">                
+            <div class="custom-file">
+                <input type="file" class="custom-file-input @error('image1') is-invalid @enderror" id="image1" lang="es" name="image1" aria-describedby="imageGroup1">
                 <label class="custom-file-label" for="image1">Seleccionar Archivo</label>
 
                 @error('image1')
                     <span class="invalid-tooltip" role="alert">{{ $message }}</span>
-                @enderror  
-                
+                @enderror
+
             </div>
-        </div>   
+        </div>
     </div>
     <div class="form-group col-md-6">
         <i class="fas fa-star-of-life colorFormRequiredIcon fa-xs"></i> <label for="">Imagen 2</label>
@@ -66,16 +64,16 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="imageGroup2"><i class="fas fa-file-image"></i></span>
             </div>
-            <div class="custom-file">                
+            <div class="custom-file">
                 <input type="file" class="custom-file-input @error('image2') is-invalid @enderror" id="image2" lang="es" name="image2" aria-describedby="imageGroup2">
                 <label class="custom-file-label" for="image2">Seleccionar Archivo</label>
 
                 @error('image2')
                     <span class="invalid-tooltip" role="alert">{{ $message }}</span>
-                @enderror 
-                
-            </div>    
-        </div>   
+                @enderror
+
+            </div>
+        </div>
     </div>
 </div>
 <div class="form-row">
@@ -83,7 +81,7 @@
         <div class="col text-center">
             <figure class="figure">
                 <img class="img-fluid img-thumbnail" id="previewImage1" style="width: 250px; height: 150px; object-fit:cover;"
-                @isset($category->images) src="{{$public_dir_images . $category->images->where('position', 1)->first()->url}}" @endisset />
+                @isset($category->images) src="/storage/{{$category->images->where('position', 1)->first()->url}}" @endisset />
                 <figcaption class="figure-caption">Vista previa de imagen 1</figcaption>
             </figure>
         </div>
@@ -92,7 +90,7 @@
         <div class="col text-center">
             <figure class="figure">
                 <img class="img-fluid img-thumbnail" id="previewImage2" style="width: 250px; height: 150px; object-fit:cover;"
-                @isset($category->images) src="{{$public_dir_images . $category->images->where('position', 2)->first()->url}}" @endisset />
+                @isset($category->images) src="/storage/{{$category->images->where('position', 2)->first()->url}}" @endisset />
                 <figcaption class="figure-caption">Vista previa de imagen 2</figcaption>
             </figure>
         </div>
@@ -111,11 +109,11 @@
     function readURL(input, frame) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-        
+
             reader.onload = function(e) {
                 $(frame).attr('src', e.target.result);
             }
-    
+
             reader.readAsDataURL(input.files[0]);
         }
     }

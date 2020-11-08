@@ -36,24 +36,24 @@
         <div class="input-group-prepend">
             <span class="input-group-text"><i class="fas fa-image"></i></i></span>
         </div>
-        <div class="custom-file">                
+        <div class="custom-file">
             <input type="file" class="custom-file-input @error('profileImage') is-invalid @enderror" id="profileImage" lang="es" name="profileImage" aria-describedby="imageGroup1">
             <label class="custom-file-label" for="profileImage">Seleccionar Archivo</label>
 
             @error('profileImage')
                 <span class="invalid-tooltip" role="alert">{{ $message }}</span>
-            @enderror  
-        </div>    
-    </div>  
+            @enderror
+        </div>
+    </div>
 </div>
 <div class="form-group">
     <div class="col text-center">
-        <figure class="figure"> 
+        <figure class="figure">
             {{-- Vista previa de la imagen de perfil del negocio --}}
-            <img class="img-fluid img-thumbnail profileImage" id="previewProfileImage" 
-            @isset($store->images)@if($store->hasCoverImage(0)) src="{{$public_dir_images . $store->images->where('position', 0)->first()->url}}" @endif @endisset/>
+            <img class="img-fluid img-thumbnail profileImage" id="previewProfileImage"
+            @isset($store->images)@if($store->hasCoverImage(0)) src="/storage/{{$store->images->where('position', 0)->first()->url}}" @endif @endisset/>
             <figcaption class="figure-caption">Vista previa de imagen de perfil de negocio</figcaption>
-        </figure>    
+        </figure>
     </div>
 </div>
 <div class="form-group">
@@ -66,8 +66,8 @@
     </div>
 </div>
 <div class="form-group">
-    <div class="alert alert-warning alert-dismissible fade show" role="alert"><i class="fas fa-exclamation-triangle"></i> 
-        <strong>No es necesario</strong> seleccionar las tres imágnes <i class="fas fa-images"></i>, pero si <strong>es obligatorio seleccionar al menos una (imagen 1 de portada)</strong>.<i class="fas fa-exclamation-triangle"></i> 
+    <div class="alert alert-warning alert-dismissible fade show" role="alert"><i class="fas fa-exclamation-triangle"></i>
+        <strong>No es necesario</strong> seleccionar las tres imágnes <i class="fas fa-images"></i>, pero si <strong>es obligatorio seleccionar al menos una (imagen 1 de portada)</strong>.<i class="fas fa-exclamation-triangle"></i>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -80,16 +80,16 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-image"></i></span>
             </div>
-            <div class="custom-file">                
+            <div class="custom-file">
                 <input type="file" class="custom-file-input @error('coverImage1') is-invalid @enderror" id="coverImage1" lang="es" name="coverImage1">
                 <label class="custom-file-label" for="coverImage1">Seleccionar Archivo</label>
 
                 @error('coverImage1')
                     <span class="invalid-tooltip" role="alert">{{ $message }}</span>
-                @enderror  
-            </div>    
-        </div> 
-    </div> 
+                @enderror
+            </div>
+        </div>
+    </div>
     <div class="form-group col-md-3">
         <label for="">Título</label>
         <div class="input-group">
@@ -102,13 +102,13 @@
             @else
                 value="{{ old('tittleCoverImage1') }}"
             @endif>
-        
+
             @error('tittleCoverImage1')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-        </div>  
+        </div>
     </div>
     <div class="form-group col-md-6">
         <label for="">Descripción</label>
@@ -122,20 +122,20 @@
             @else
                 value="{{ old('descriptionCoverImage1') }}"
             @endif>
-        
+
             @error('descriptionCoverImage1')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-        </div>    
+        </div>
     </div>
 </div>
 <div class="form-group">
     <div class="col text-center">
         <figure class="figure">
             <img class="img-fluid img-thumbnail coverImage" id="previewCoverImage1"
-            @isset($store->images)@if($store->hasCoverImage(1)) src="{{$public_dir_images . $store->images->where('position', 1)->first()->url}}" @endif @endisset />
+            @isset($store->images)@if($store->hasCoverImage(1)) src="/storage/{{$store->images->where('position', 1)->first()->url}}" @endif @endisset />
             <figcaption class="figure-caption">Vista previa de imagen de portada 1</figcaption>
         </figure>
     </div>
@@ -148,12 +148,12 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-image"></i></span>
             </div>
-            <div class="custom-file">                
+            <div class="custom-file">
                 <input type="file" class="custom-file-input" id="coverImage2" lang="es" name="coverImage2">
                 <label class="custom-file-label" for="coverImage2">Seleccionar Archivo</label>
-            </div>    
-        </div> 
-    </div> 
+            </div>
+        </div>
+    </div>
     <div class="form-group col-md-3">
         <label for="">Título</label>
         <div class="input-group">
@@ -172,7 +172,7 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-        </div>  
+        </div>
     </div>
     <div class="form-group col-md-6">
         <label for="">Descripción</label>
@@ -192,14 +192,14 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-        </div>    
+        </div>
     </div>
 </div>
 <div class="form-group">
     <div class="col text-center">
         <figure class="figure">
             <img class="img-fluid img-thumbnail coverImage" id="previewCoverImage2"
-            @isset($store->images)@if($store->hasCoverImage(2)) src="{{$public_dir_images . $store->images->where('position', 2)->first()->url}}" @endif @endisset />
+            @isset($store->images)@if($store->hasCoverImage(2)) src="/storage/{{$store->images->where('position', 2)->first()->url}}" @endif @endisset />
             <figcaption class="figure-caption">Vista previa de imagen de portada 2</figcaption>
         </figure>
     </div>
@@ -212,12 +212,12 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-image"></i></span>
             </div>
-            <div class="custom-file">                
+            <div class="custom-file">
                 <input type="file" class="custom-file-input" id="coverImage3" lang="es" name="coverImage3">
                 <label class="custom-file-label" for="coverImage3">Seleccionar Archivo</label>
-            </div>    
-        </div> 
-    </div> 
+            </div>
+        </div>
+    </div>
     <div class="form-group col-md-3">
         <label for="">Título</label>
         <div class="input-group">
@@ -236,7 +236,7 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-        </div>  
+        </div>
     </div>
     <div class="form-group col-md-6">
         <label for="">Descripción</label>
@@ -256,14 +256,14 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-        </div>    
+        </div>
     </div>
 </div>
 <div class="form-group">
     <div class="col text-center">
         <figure class="figure">
             <img class="img-fluid img-thumbnail coverImage" id="previewCoverImage3"
-            @isset($store->images)@if($store->hasCoverImage(3)) src="{{$public_dir_images . $store->images->where('position', 3)->first()->url}}" @endif @endisset />
+            @isset($store->images)@if($store->hasCoverImage(3)) src="/storage/{{$store->images->where('position', 3)->first()->url}}" @endif @endisset />
             <figcaption class="figure-caption">Vista previa de imagen de portada 3</figcaption>
         </figure>
     </div>
@@ -283,11 +283,11 @@
     function readURL(input, frame) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-        
+
             reader.onload = function(e) {
                 $(frame).attr('src', e.target.result);
             }
-    
+
             reader.readAsDataURL(input.files[0]);
         }
     }

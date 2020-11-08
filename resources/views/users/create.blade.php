@@ -5,7 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Registro de Usuario') }}</div>
+                <div class="card-header">
+                {{ __('Registro de Usuario')}} 
+                 @isset($prospecto) 
+                    {{$prospecto}}         
+                 @endisset </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('users.store') }}">

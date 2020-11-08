@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Events\ImageSaved;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use Intervention\Image\Facades\Image as ImageResize;
+use Illuminate\Support\Facades\Storage;
 use App\Image;
 
 class CategoryController extends Controller
@@ -20,7 +21,7 @@ class CategoryController extends Controller
         //$this->middleware('auth');
         $this->middleware('auth')->only(['create', 'edit']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +29,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('images')->get();
+        $categories = Category::with('images')->paginate();
         return view('categories.index', compact('categories'));
     }
 
@@ -51,18 +52,18 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $category = new Category();
-        
+
         $category->name        = $request->name;
         $category->description = $request->description;
         $category->slug        = 'category'.time();
 
-        $category->save();        
+        $category->save();
 
         if($request->hasFile('image1'))
         {
             $imageCategory = $this->storeImage($request->file('image1'), 1);
             $category->images()->attach($imageCategory);
-        }        
+        }
 
         if($request->hasFile('image2'))
         {
@@ -82,30 +83,18 @@ class CategoryController extends Controller
      */
     public function storeImage($file, $position)
     {
-        $url = time().$file->getClientOriginalName();
-        $file->move(public_path().'/images/', $url);      
-        
+        $url = $file->store('images');
+
         $imageCategory = new Image();
         $imageCategory->url = $url;
         $imageCategory->position = $position;
         $imageCategory->save();
 
-        $this->resizeImage($url);
-        
+        ImageSaved::dispatch($imageCategory, 300);
+
         return $imageCategory;
     }
-    
-    /**
-     * Store a newly Image from category.
-     *
-     * @param  $url
-     */
-    private function resizeImage($url)
-    {
-        $imageResize = ImageResize::make(public_path() . '/images/' . $url)->fit(500, 300);
-        $imageResize->save(null, 60, 'jpg');
-    }
-    
+
     /**
      * Display the specified resource.
      *
@@ -142,18 +131,18 @@ class CategoryController extends Controller
         if($request->hasFile('image1'))
         {
             $image = $category->images->where('position', 1)->first();
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
             $category->images()->detach($image);
             $image->delete();
 
             $imageCategory = $this->storeImage($request->file('image1'), 1);
             $category->images()->attach($imageCategory);
-        }        
+        }
 
         if($request->hasFile('image2'))
         {
             $image = $category->images->where('position', 2)->first();
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
             $category->images()->detach($image);
             $image->delete();
 
@@ -171,35 +160,19 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly Image from category.
-     *
-     * @param  $url
-     */
-    private function deleteImage($url)
-    {
-        if(\File::exists(public_path() . '/images/' . $url)){
-
-            \File::delete(public_path() . '/images/' . $url);
-        }else
-        {
-            dd($url);
-        }
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
     public function destroy(Category $category)
-    {        
+    {
         foreach($category->images as $image){
-            $this->deleteImage($image->url);
+            Storage::delete($image->url);
         }
-        
+
         $category->delete();
-        
+
         return redirect()->route('categories.index')
             ->with('statusSuccess', 'Categoría eliminada correctamente');
     }

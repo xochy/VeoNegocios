@@ -28,7 +28,7 @@
     </div>
 @endif
 
-@if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector']))
+@if (Auth::user() != null && Auth::user()->authorizeRolesShow(['administrator', 'collector']))*/
     <a href="{{ route('users.create') }}" class="btn btn-primary" style="margin-bottom: 20px;"><i class="far fa-plus-square"></i> Crear nuevo usuario</a>
 @endif
 

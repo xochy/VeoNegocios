@@ -30,9 +30,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $users = User::where('id', '!=', $user->roles()->first()->id)->paginate(15);
-        return view('users.index', compact('users'));
+        
+       
+        if (!Auth::user()){
+             return view('welcome');
+        }else{
+            $user = Auth::user();
+            $users = User::where('id', '!=', $user->roles()->first()->id)->paginate(15);
+            return view('users.index', compact('users'));
+        }
     }
 
     /**
@@ -50,7 +56,6 @@ class UserController extends Controller
         else{
             $roles = Role::where('description', 'Cliente')->orderBy('id', 'asc')->get();
         }
-
         return view('users.create', compact('roles'));
     }
 
@@ -62,14 +67,16 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+       
         $role_user = Role::where('id', $request->input('roles'))->first();
-
         $user = User::create([
             'name' => $request['name'],
+            'cel' => $request['cel'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
+            
         ]);
-
+        
         $user->roles()->attach($role_user);
 
         return redirect()->route('users.index')->with('statusSuccess', 'Usuario creado correctamente');

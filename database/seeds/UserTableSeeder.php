@@ -12,11 +12,12 @@ class UserTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {        
+    {
         $role_administrator = Role::where('name', 'administrator')->first();
 
         $user = new User();
         $user->name = "Administrator";
+        $user->cel = "4531022978";
         $user->email = "admin@mail.com";
         $user->password = bcrypt('admin');
         $user->save();
@@ -27,6 +28,7 @@ class UserTableSeeder extends Seeder
 
         $user = new User();
         $user->name = "jorge";
+        $user->cel = "0";
         $user->email = "jorge@mail.com";
         $user->password = bcrypt('jorge');
         $user->save();
@@ -35,6 +37,7 @@ class UserTableSeeder extends Seeder
 
         $user = new User();
         $user->name = "mario";
+        $user->cel = "0";
         $user->email = "mario@mail.com";
         $user->password = bcrypt('mario');
         $user->save();
@@ -43,6 +46,7 @@ class UserTableSeeder extends Seeder
 
         $user = new User();
         $user->name = "jose";
+        $user->cel = "0";
         $user->email = "jose@mail.com";
         $user->password = bcrypt('jose');
         $user->save();
@@ -51,6 +55,7 @@ class UserTableSeeder extends Seeder
 
         $user = new User();
         $user->name = "martin";
+        $user->cel = "0";
         $user->email = "martin@mail.com";
         $user->password = bcrypt('martin');
         $user->save();
